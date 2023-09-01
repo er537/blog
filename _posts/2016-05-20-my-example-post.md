@@ -3,5 +3,5 @@ layout: post
 title: Interpretting Whisper
 ---
 
-testing \ 
-$$ x = \phi $$
+$$\frac{d}{dx} (x^2) = 2x$$
+
