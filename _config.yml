@@ -11,6 +11,8 @@ description: >
 
 theme: minima
 
+include: ["_includes"]
+
 markdown: kramdown
 
 plugins:
