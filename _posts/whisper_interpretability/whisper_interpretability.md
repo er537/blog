@@ -323,8 +323,9 @@ where
 $$\bar A_t = \mathbb{E}[\nabla A_t \circ A_t],$$
 $A_{t}$ is the attention pattern in layer $t$ and $\bar A_{t}$ is the attention pattern weighted by gradient contribution. 
 This produces the striking pattern below; up to the point where the audio ends, the attention pattern is very localized. When the speech ends (at frame ~500 in the following plot), all future positions attend back to the end of the speech.
-<div style="text-align:center;">
-    <img src="encoder/attention_scores.png" alt="attn_scores" style="width:600px; height:500px;" />
+<div style="display: flex; justify-content: center;">
+    <img src="encoder/attention_scores.png" alt="attn_scores" style="max-width: 100%; height: auto;" />
+    <img src="encoder/attn_map_zoom.png" alt="attn_zoom" style="max-width: 100%; height: auto;" />
 </div>
 
 ## Constraining the attention window
