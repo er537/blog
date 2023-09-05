@@ -17,7 +17,7 @@ Instead we set it to be:\
 Below we plot the top 20 most likely next tokens and their corresponding logit for a variety of prompts. We can see that when the model has no acoustic information it relys on learnt bigrams.
 
 ![very](decoder/prompt_images/very_prompt.png)
-![traffic](decoder/prompt_images/traffic.png)
+![traffic](decoder/prompt_images/traffic_prompt.png)
 ![Good](decoder/prompt_images/Good_prompt.png)
 
 ## Embedding space
