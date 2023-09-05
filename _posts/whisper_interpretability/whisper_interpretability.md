@@ -1,3 +1,8 @@
+---
+layout: post
+title: Interpretting Whisper
+---
+
 # Macroscopic Properties of the Decoder
 
 ## The decoder is a weak LM
