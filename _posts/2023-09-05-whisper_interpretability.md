@@ -21,20 +21,20 @@ Instead we set it to be:\
 
 Below we plot the top 20 most likely next tokens and their corresponding logit for a variety of prompts. We can see that when the model has no acoustic information it relys on learnt bigrams.
 
-![very](whisper_interpretability/decoder/prompt_images/very_prompt.png)
-![traffic](whisper_interpretability/decoder/prompt_images/traffic_prompt.png)
-![Good](whisper_interpretability/decoder/prompt_images/Good_prompt.png)
+![very](/images/whisper_interpretability/decoder/prompt_images/very_prompt.png)
+![traffic](/images/whisper_interpretability/decoder/prompt_images/traffic_prompt.png)
+![Good](/images/whisper_interpretability/decoder/prompt_images/Good_prompt.png)
 
 ## Embedding space
 
 Bigram statistics are often learnt by the token embedding layer in transformer language models. Additionally, we observe semantically similar words clustered in embedding space. This phenomenon holds for Whisper model, but additionally we discover that words with **similar sounds** also exhibit proximity in the embedding space. To illustrate this, we choose specific words and then create a plot of the 20 nearest tokens based on their cosine similarity.\
 \
 'rug' is close in embedding space to lug, mug and tug. This is not very surprising of a speech-to-text model; if you *think* you hear the word 'rug', it is quite likely that the word was in fact lug or mug.
-![rug](whisper_interpretability/decoder/embedding_space/rug_embed.png)
+![rug](/images/whisper_interpretability/decoder/embedding_space/rug_embed.png)
 Often tokens that are close in embedding space are a combination of rhyming words **and** semantically similar words:
-![UK](whisper_interpretability/decoder/embedding_space/UK_embed.png)
-![duck](whisper_interpretability/decoder/embedding_space/duck_embed.png)
-![tea](whisper_interpretability/decoder/embedding_space/tea_embed.png)
+![UK](/images/whisper_interpretability/decoder/embedding_space/UK_embed.png)
+![duck](/images/whisper_interpretability/decoder/embedding_space/duck_embed.png)
+![tea](/images/whisper_interpretability/decoder/embedding_space/tea_embed.png)
 
 
 # Acoustic Features
@@ -44,19 +44,19 @@ We found max activating dataset examples for all of the neurons in the mlp layer
 <details>
 <summary>Neuron 4 ('said')</summary>
 <audio controls>
-   <source src="whisper_interpretability/audio/b3_mlp1_nb_4pkl_sample0.wav" type="audio/wav">
+   <source src="/images/whisper_interpretability/audio/b3_mlp1_nb_4pkl_sample0.wav" type="audio/wav">
    Your browser does not support the audio element.
 </audio>
 <audio controls>
-   <source src="whisper_interpretability/audio/b3_mlp1_nb_4pkl_sample3.wav" type="audio/wav">
+   <source src="/images/whisper_interpretability/audio/b3_mlp1_nb_4pkl_sample3.wav" type="audio/wav">
    Your browser does not support the audio element.
 </audio>
 <audio controls>
-   <source src="whisper_interpretability/audio/b3_mlp1_nb_4pkl_sample4.wav" type="audio/wav">
+   <source src="/images/whisper_interpretability/audio/b3_mlp1_nb_4pkl_sample4.wav" type="audio/wav">
    Your browser does not support the audio element.
 </audio>
 <audio controls>
-   <source src="whisper_interpretability/audio/b3_mlp1_nb_4pkl_sample8.wav" type="audio/wav">
+   <source src="/images/whisper_interpretability/audio/b3_mlp1_nb_4pkl_sample8.wav" type="audio/wav">
    Your browser does not support the audio element.
 </audio>
 </details>
@@ -64,15 +64,15 @@ We found max activating dataset examples for all of the neurons in the mlp layer
 <details>
 <summary>Neuron 9 ('way/wait')</summary>
 <audio controls>
-   <source src="whisper_interpretability/audio/b3_mlp1_nb_9pkl_sample5.wav" type="audio/wav">
+   <source src="/images/whisper_interpretability/audio/b3_mlp1_nb_9pkl_sample5.wav" type="audio/wav">
    Your browser does not support the audio element.
 </audio>
 <audio controls>
-   <source src="whisper_interpretability/audio/b3_mlp1_nb_9pkl_sample8.wav" type="audio/wav">
+   <source src="/images/whisper_interpretability/audio/b3_mlp1_nb_9pkl_sample8.wav" type="audio/wav">
    Your browser does not support the audio element.
 </audio>
 <audio controls>
-   <source src="whisper_interpretability/audio/b3_mlp1_nb_9pkl_sample9.wav" type="audio/wav">
+   <source src="/images/whisper_interpretability/audio/b3_mlp1_nb_9pkl_sample9.wav" type="audio/wav">
    Your browser does not support the audio element.
 </audio>
 </details>
@@ -80,19 +80,19 @@ We found max activating dataset examples for all of the neurons in the mlp layer
 <details>
 <summary>Neuron 20 ('f')</summary>
 <audio controls>
-   <source src="whisper_interpretability/audio/b3_mlp1_nb_20pkl_sample0.wav" type="audio/wav">
+   <source src="/images/whisper_interpretability/audio/b3_mlp1_nb_20pkl_sample0.wav" type="audio/wav">
    Your browser does not support the audio element.
 </audio>
 <audio controls>
-   <source src="whisper_interpretability/audio/b3_mlp1_nb_20pkl_sample6.wav" type="audio/wav">
+   <source src="/images/whisper_interpretability/audio/b3_mlp1_nb_20pkl_sample6.wav" type="audio/wav">
    Your browser does not support the audio element.
 </audio>
 <audio controls>
-   <source src="whisper_interpretability/audio/b3_mlp1_nb_20pkl_sample8.wav" type="audio/wav">
+   <source src="/images/whisper_interpretability/audio/b3_mlp1_nb_20pkl_sample8.wav" type="audio/wav">
    Your browser does not support the audio element.
 </audio>
 <audio controls>
-   <source src="whisper_interpretability/audio/b3_mlp1_nb_20pkl_sample9.wav" type="audio/wav">
+   <source src="/images/whisper_interpretability/audio/b3_mlp1_nb_20pkl_sample9.wav" type="audio/wav">
    Your browser does not support the audio element.
 </audio>
 </details>
@@ -101,19 +101,19 @@ We found max activating dataset examples for all of the neurons in the mlp layer
 <details>
 <summary>Neuron 0 ('m')</summary>
 <audio controls>
-   <source src="whisper_interpretability/audio/b2_mlp1_nb_0pkl_sample3.wav" type="audio/wav">
+   <source src="/images/whisper_interpretability/audio/b2_mlp1_nb_0pkl_sample3.wav" type="audio/wav">
    Your browser does not support the audio element.
 </audio>
 <audio controls>
-   <source src="whisper_interpretability/audio/b2_mlp1_nb_0pkl_sample6.wav" type="audio/wav">
+   <source src="/images/whisper_interpretability/audio/b2_mlp1_nb_0pkl_sample6.wav" type="audio/wav">
    Your browser does not support the audio element.
 </audio>
 <audio controls>
-   <source src="whisper_interpretability/audio/b2_mlp1_nb_0pkl_sample7.wav" type="audio/wav">
+   <source src="/images/whisper_interpretability/audio/b2_mlp1_nb_0pkl_sample7.wav" type="audio/wav">
    Your browser does not support the audio element.
 </audio>
 <audio controls>
-   <source src="whisper_interpretability/audio/b2_mlp1_nb_0pkl_sample8.wav" type="audio/wav">
+   <source src="/images/whisper_interpretability/audio/b2_mlp1_nb_0pkl_sample8.wav" type="audio/wav">
    Your browser does not support the audio element.
 </audio>
 </details>
@@ -121,19 +121,19 @@ We found max activating dataset examples for all of the neurons in the mlp layer
 <details>
 <summary>Neuron 1 ('sh/ch'))</summary>
 <audio controls>
-   <source src="whisper_interpretability/audio/b2_mlp1_nb_1pkl_sample1.wav" type="audio/wav">
+   <source src="/images/whisper_interpretability/audio/b2_mlp1_nb_1pkl_sample1.wav" type="audio/wav">
    Your browser does not support the audio element.
 </audio>
 <audio controls>
-   <source src="whisper_interpretability/audio/b2_mlp1_nb_1pkl_sample2.wav" type="audio/wav">
+   <source src="/images/whisper_interpretability/audio/b2_mlp1_nb_1pkl_sample2.wav" type="audio/wav">
    Your browser does not support the audio element.
 </audio>
 <audio controls>
-   <source src="whisper_interpretability/audio/b2_mlp1_nb_1pkl_sample8.wav" type="audio/wav">
+   <source src="/images/whisper_interpretability/audio/b2_mlp1_nb_1pkl_sample8.wav" type="audio/wav">
    Your browser does not support the audio element.
 </audio>
 <audio controls>
-   <source src="whisper_interpretability/audio/b2_mlp1_nb_1pkl_sample9.wav" type="audio/wav">
+   <source src="/images/whisper_interpretability/audio/b2_mlp1_nb_1pkl_sample9.wav" type="audio/wav">
    Your browser does not support the audio element.
 </audio>
 </details>
@@ -141,19 +141,19 @@ We found max activating dataset examples for all of the neurons in the mlp layer
 <details>
 <summary>Neuron 3 ('c')</summary>
 <audio controls>
-   <source src="whisper_interpretability/audio/b2_mlp1_nb_3pkl_sample4.wav" type="audio/wav">
+   <source src="/images/whisper_interpretability/audio/b2_mlp1_nb_3pkl_sample4.wav" type="audio/wav">
    Your browser does not support the audio element.
 </audio>
 <audio controls>
-   <source src="whisper_interpretability/audio/b2_mlp1_nb_3pkl_sample5.wav" type="audio/wav">
+   <source src="/images/whisper_interpretability/audio/b2_mlp1_nb_3pkl_sample5.wav" type="audio/wav">
    Your browser does not support the audio element.
 </audio>
 <audio controls>
-   <source src="whisper_interpretability/audio/b2_mlp1_nb_3pkl_sample6.wav" type="audio/wav">
+   <source src="/images/whisper_interpretability/audio/b2_mlp1_nb_3pkl_sample6.wav" type="audio/wav">
    Your browser does not support the audio element.
 </audio>
 <audio controls>
-   <source src="whisper_interpretability/audio/b2_mlp1_nb_3pkl_sample8.wav" type="audio/wav">
+   <source src="/images/whisper_interpretability/audio/b2_mlp1_nb_3pkl_sample8.wav" type="audio/wav">
    Your browser does not support the audio element.
 </audio>
 </details>
@@ -162,19 +162,19 @@ We found max activating dataset examples for all of the neurons in the mlp layer
 <details>
 <summary>Dictionary idx=131 ("r")</summary>
 <audio controls>
-   <source src="whisper_interpretability/audio/b3_res_131pkl_sample2.wav" type="audio/wav">
+   <source src="/images/whisper_interpretability/audio/b3_res_131pkl_sample2.wav" type="audio/wav">
    Your browser does not support the audio element.
 </audio>
 <audio controls>
-   <source src="whisper_interpretability/audio/b3_res_131pkl_sample7.wav" type="audio/wav">
+   <source src="/images/whisper_interpretability/audio/b3_res_131pkl_sample7.wav" type="audio/wav">
    Your browser does not support the audio element.
 </audio>
 <audio controls>
-   <source src="whisper_interpretability/audio/b3_res_131pkl_sample9.wav" type="audio/wav">
+   <source src="/images/whisper_interpretability/audio/b3_res_131pkl_sample9.wav" type="audio/wav">
    Your browser does not support the audio element.
 </audio>
 <audio controls>
-   <source src="whisper_interpretability/audio/b3_res_131pkl_sample8.wav" type="audio/wav">
+   <source src="/images/whisper_interpretability/audio/b3_res_131pkl_sample8.wav" type="audio/wav">
    Your browser does not support the audio element.
 </audio>
 </details>
@@ -182,19 +182,19 @@ We found max activating dataset examples for all of the neurons in the mlp layer
 <details>
 <summary>Dictionary idx=1 ("n")</summary>
 <audio controls>
-   <source src="whisper_interpretability/audio/b3_res_1pkl_sample0.wav" type="audio/wav">
+   <source src="/images/whisper_interpretability/audio/b3_res_1pkl_sample0.wav" type="audio/wav">
    Your browser does not support the audio element.
 </audio>
 <audio controls>
-   <source src="whisper_interpretability/audio/b3_res_1pkl_sample1.wav" type="audio/wav">
+   <source src="/images/whisper_interpretability/audio/b3_res_1pkl_sample1.wav" type="audio/wav">
    Your browser does not support the audio element.
 </audio>
 <audio controls>
-   <source src="whisper_interpretability/audio/b3_res_1pkl_sample3.wav" type="audio/wav">
+   <source src="/images/whisper_interpretability/audio/b3_res_1pkl_sample3.wav" type="audio/wav">
    Your browser does not support the audio element.
 </audio>
 <audio controls>
-   <source src="whisper_interpretability/audio/b3_res_1pkl_sample8.wav" type="audio/wav">
+   <source src="/images/whisper_interpretability/audio/b3_res_1pkl_sample8.wav" type="audio/wav">
    Your browser does not support the audio element.
 </audio>
 </details>
@@ -202,19 +202,19 @@ We found max activating dataset examples for all of the neurons in the mlp layer
 <details>
 <summary>Dictionary idx=2 ("p")</summary>
 <audio controls>
-   <source src="whisper_interpretability/audio/b3_res_2pkl_sample0.wav" type="audio/wav">
+   <source src="/images/whisper_interpretability/audio/b3_res_2pkl_sample0.wav" type="audio/wav">
    Your browser does not support the audio element.
 </audio>
 <audio controls>
-   <source src="whisper_interpretability/audio/b3_res_2pkl_sample2.wav" type="audio/wav">
+   <source src="/images/whisper_interpretability/audio/b3_res_2pkl_sample2.wav" type="audio/wav">
    Your browser does not support the audio element.
 </audio>
 <audio controls>
-   <source src="whisper_interpretability/audio/b3_res_2pkl_sample3.wav" type="audio/wav">
+   <source src="/images/whisper_interpretability/audio/b3_res_2pkl_sample3.wav" type="audio/wav">
    Your browser does not support the audio element.
 </audio>
 <audio controls>
-   <source src="whisper_interpretability/audio/b3_res_2pkl_sample9.wav" type="audio/wav">
+   <source src="/images/whisper_interpretability/audio/b3_res_2pkl_sample9.wav" type="audio/wav">
    Your browser does not support the audio element.
 </audio>
 </details>
@@ -223,19 +223,19 @@ We found max activating dataset examples for all of the neurons in the mlp layer
 <details>
 <summary>Dictionary idx=3 ("an/in/on")</summary>
 <audio controls>
-   <source src="whisper_interpretability/audio/b2_res_3pkl_sample1.wav" type="audio/wav">
+   <source src="/images/whisper_interpretability/audio/b2_res_3pkl_sample1.wav" type="audio/wav">
    Your browser does not support the audio element.
 </audio>
 <audio controls>
-   <source src="whisper_interpretability/audio/b2_res_3pkl_sample6.wav" type="audio/wav">
+   <source src="/images/whisper_interpretability/audio/b2_res_3pkl_sample6.wav" type="audio/wav">
    Your browser does not support the audio element.
 </audio>
 <audio controls>
-   <source src="whisper_interpretability/audio/b2_res_3pkl_sample9.wav" type="audio/wav">
+   <source src="/images/whisper_interpretability/audio/b2_res_3pkl_sample9.wav" type="audio/wav">
    Your browser does not support the audio element.
 </audio>
 <audio controls>
-   <source src="whisper_interpretability/audio/b2_res_3pkl_sample8.wav" type="audio/wav">
+   <source src="/images/whisper_interpretability/audio/b2_res_3pkl_sample8.wav" type="audio/wav">
    Your browser does not support the audio element.
 </audio>
 </details>
@@ -243,19 +243,19 @@ We found max activating dataset examples for all of the neurons in the mlp layer
 <details>
 <summary>Dictionary idx=4 ("I (eg time/try/I))</summary>
 <audio controls>
-   <source src="whisper_interpretability/audio/b2_res_4pkl_sample3.wav" type="audio/wav">
+   <source src="/images/whisper_interpretability/audio/b2_res_4pkl_sample3.wav" type="audio/wav">
    Your browser does not support the audio element.
 </audio>
 <audio controls>
-   <source src="whisper_interpretability/audio/b2_res_4pkl_sample6.wav" type="audio/wav">
+   <source src="/images/whisper_interpretability/audio/b2_res_4pkl_sample6.wav" type="audio/wav">
    Your browser does not support the audio element.
 </audio>
 <audio controls>
-   <source src="whisper_interpretability/audio/b2_res_4pkl_sample9.wav" type="audio/wav">
+   <source src="/images/whisper_interpretability/audio/b2_res_4pkl_sample9.wav" type="audio/wav">
    Your browser does not support the audio element.
 </audio>
 <audio controls>
-   <source src="whisper_interpretability/audio/b2_res_4pkl_sample7.wav" type="audio/wav">
+   <source src="/images/whisper_interpretability/audio/b2_res_4pkl_sample7.wav" type="audio/wav">
    Your browser does not support the audio element.
 </audio>
 </details>
@@ -263,19 +263,19 @@ We found max activating dataset examples for all of the neurons in the mlp layer
 <details>
 <summary>Dictionary idx=6 ("l" (eg lost))</summary>
 <audio controls>
-   <source src="whisper_interpretability/audio/b2_res_6pkl_sample0.wav" type="audio/wav">
+   <source src="/images/whisper_interpretability/audio/b2_res_6pkl_sample0.wav" type="audio/wav">
    Your browser does not support the audio element.
 </audio>
 <audio controls>
-   <source src="whisper_interpretability/audio/b2_res_6pkl_sample2.wav" type="audio/wav">
+   <source src="/images/whisper_interpretability/audio/b2_res_6pkl_sample2.wav" type="audio/wav">
    Your browser does not support the audio element.
 </audio>
 <audio controls>
-   <source src="whisper_interpretability/audio/b2_res_6pkl_sample9.wav" type="audio/wav">
+   <source src="/images/whisper_interpretability/audio/b2_res_6pkl_sample9.wav" type="audio/wav">
    Your browser does not support the audio element.
 </audio>
 <audio controls>
-   <source src="whisper_interpretability/audio/b2_res_6pkl_sample3.wav" type="audio/wav">
+   <source src="/images/whisper_interpretability/audio/b2_res_6pkl_sample3.wav" type="audio/wav">
    Your browser does not support the audio element.
 </audio>
 </details>
@@ -283,8 +283,8 @@ We found max activating dataset examples for all of the neurons in the mlp layer
 # Polysemantic acoustic neurons
 The presence of polysemantic neurons in both language and image models is widely acknowledged, suggesting the possibility of their existence in acoustic models as well. Our findings validate the presence of these polysemantic acoustic neurons, which respond to different sounds at various activation levels. Presented in the following visualizations are two such polysemantic neurons alongside the sounds that trigger their activation. Additionally, audio samples are provided to illustrate this phenomenon.
 <div style="display: flex; justify-content: center;">
-    <img src="whisper_interpretability/encoder/poly_ch_sh.png" alt="poly_ch_sh" style="max-width: 50%; height: auto;" />
-    <img src="whisper_interpretability/encoder/poly_c_g.png" alt="poly_c_g" style="max-width: 50%; height: auto;" />
+    <img src="/images/whisper_interpretability/encoder/poly_ch_sh.png" alt="poly_ch_sh" style="max-width: 50%; height: auto;" />
+    <img src="/images/whisper_interpretability/encoder/poly_c_g.png" alt="poly_c_g" style="max-width: 50%; height: auto;" />
 </div>
 
 
@@ -293,15 +293,15 @@ The presence of polysemantic neurons in both language and image models is widely
 <details>
 <summary>Neuron 1 ('sh/ch/j')</summary>
 <audio controls>
-   <source src="whisper_interpretability/audio/b2_mlp_1_1pkl_poly_sh.wav" type="audio/wav">
+   <source src="/images/whisper_interpretability/audio/b2_mlp_1_1pkl_poly_sh.wav" type="audio/wav">
    Your browser does not support the audio element.
 </audio>
 <audio controls>
-   <source src="whisper_interpretability/audio/b2_mlp_1_1pkl_poly_ch.wav" type="audio/wav">
+   <source src="/images/whisper_interpretability/audio/b2_mlp_1_1pkl_poly_ch.wav" type="audio/wav">
    Your browser does not support the audio element.
 </audio>
 <audio controls>
-   <source src="whisper_interpretability/audio/b2_mlp_1_1pkl_poly_j.wav" type="audio/wav">
+   <source src="/images/whisper_interpretability/audio/b2_mlp_1_1pkl_poly_j.wav" type="audio/wav">
    Your browser does not support the audio element.
 </audio>
 </details>
@@ -309,11 +309,11 @@ The presence of polysemantic neurons in both language and image models is widely
 <details>
 <summary>Neuron 3 ('c/g')</summary>
 <audio controls>
-   <source src="whisper_interpretability/audio/b2_mlp_1_3pkl_poly_c.wav" type="audio/wav">
+   <source src="/images/whisper_interpretability/audio/b2_mlp_1_3pkl_poly_c.wav" type="audio/wav">
    Your browser does not support the audio element.
 </audio>
 <audio controls>
-   <source src="whisper_interpretability/audio/b2_mlp_1_3pkl_poly_g.wav" type="audio/wav">
+   <source src="/images/whisper_interpretability/audio/b2_mlp_1_3pkl_poly_g.wav" type="audio/wav">
    Your browser does not support the audio element.
 </audio>
 </details>
@@ -329,14 +329,14 @@ $$\bar A_t = \mathbb{E}[\nabla A_t \circ A_t],$$
 $A_{t}$ is the attention pattern in layer $t$ and $\bar A_{t}$ is the attention pattern weighted by gradient contribution. 
 This produces the striking pattern below; up to the point where the audio ends, the attention pattern is very localized. When the speech ends (at frame ~500 in the following plot), all future positions attend back to the end of the speech.
 <div style="display: flex; justify-content: center;">
-    <img src="whisper_interpretability/encoder/attention_scores.png" alt="attn_scores" style="max-width: 100%; height: auto;" />
-    <img src="whisper_interpretability/encoder/attn_map_zoom.png" alt="attn_zoom" style="max-width: 100%; height: auto;" />
+    <img src="/images/whisper_interpretability/encoder/attention_scores.png" alt="attn_scores" style="max-width: 100%; height: auto;" />
+    <img src="/images/whisper_interpretability/encoder/attn_map_zoom.png" alt="attn_zoom" style="max-width: 100%; height: auto;" />
 </div>
 
 ## Constraining the attention window
 Given how localized the attention pattern appears to be, we investigate what happens if we constrain it so that every audio embedding can only attend to the k nearest tokens on either side. Eg if k=2 we would we apply the following mask to the attention scores before the softmax:
 <div>
-    <img src="whisper_interpretability/encoder/attn_mask.png" alt="attn_mask" style="width:300px; height:300px;" />
+    <img src="/images/whisper_interpretability/encoder/attn_mask.png" alt="attn_mask" style="width:300px; height:300px;" />
 </div>
 
 Here are the transcripts that emerge as we limit the attention window for various k values. We observe that even when k is reduced to 75, the model continues to generate reasonably precise transcripts, indicating that information is being encoded in a localized manner.
@@ -379,7 +379,7 @@ Consider the following example in which we substitute the initial 50 audio embed
 <details>
 <summary>Audio Sample</summary>
 <audio controls>
-   <source src="whisper_interpretability/encoder/Hot_ones.wav" type="audio/wav">
+   <source src="/images/whisper_interpretability/encoder/Hot_ones.wav" type="audio/wav">
    Your browser does not support the audio element.
 </audio>
 </details>
