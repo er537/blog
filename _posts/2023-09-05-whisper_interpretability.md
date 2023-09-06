@@ -38,7 +38,7 @@ Often tokens that are close in embedding space are a combination of rhyming word
 
 
 # Acoustic Features
-We found max activating dataset examples for all of the neurons in the mlp layers of the encoder. We also trained sparse autoencoders on the residual stream activations and found max activating dataset examples for these learnt features. By amplifying the sound around the point where the neuron/feature is maximally active, we found them to be highly interpretable. Below are examples of some of the features we found.
+It turns out that the neurons in the MLP layers of the encoder are highly interpretable; by finding maximally activating dataset examples for all of the neurons we could show that the majority of them activate on a specific phonetic sound. By amplifying the audio around the sequence position where the neuron is maximally active, you can clearly hear these phonemes. Below are some examples:  
 
 ## encoder.blocks.3.mlp.1 - Neuron Basis
 <details>
@@ -158,6 +158,8 @@ We found max activating dataset examples for all of the neurons in the mlp layer
 </audio>
 </details>
 
+## Residual Stream Features
+The residual stream is not in a (privileged basis)[https://transformer-circuits.pub/2023/privileged-basis/index.html] so we would not expect acoustic features to be neurons aligned. Instead we trained sparse autoencoders on the residual stream activations and found maximally activating dataset examples for these learnt features.
 ## encoder.blocks.3 - Learnt using sparse autoencoder
 <details>
 <summary>Dictionary idx=131 ("r")</summary>
