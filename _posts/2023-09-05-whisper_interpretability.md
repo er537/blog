@@ -21,7 +21,7 @@ Instead we set it to be:\
 
 Below we plot the top 20 most likely next tokens and their corresponding logit for a variety of prompts. We can see that when the model has no acoustic information it relys on learnt bigrams.
 
-![very](/images/whisper_interpretability/decoder/prompt_images/very_prompt.png)
+![very](/images/whisper_interpretability/decoder/prompt_images/very_prompt.png?raw=true)
 ![traffic](/images/whisper_interpretability/decoder/prompt_images/traffic_prompt.png)
 ![Good](/images/whisper_interpretability/decoder/prompt_images/Good_prompt.png)
 
@@ -325,11 +325,13 @@ The presence of polysemantic neurons in both language and image models is widely
 We propagate the attention scores $R_{t}$ down the layers of the encoder as in [Generic Attention-model Explainability for Interpreting Bi-Modal and Encoder-Decoder Transformers](https://arxiv.org/pdf/2103.15679.pdf). This roughly equates to,
 
 
-$$R_{t+1} = R_{t} + \bar A_{t+1} R_{t},$$
-where  
+$$R_{t+1} = R_{t} + \bar A_{t+1} R_{t},$$  
 
 
-$$\bar A_t = \mathbb{E}[\nabla A_t \circ A_t],$$
+where,  
+
+
+$$\bar A_t = \mathbb{E}[\nabla A_t \circ A_t],$$  
 
 
 $A_{t}$ is the attention pattern in layer $t$ and $\bar A_{t}$ is the attention pattern weighted by gradient contribution. 
