@@ -159,7 +159,7 @@ It turns out that the neurons in the MLP layers of the encoder are highly interp
 </details>
 
 ## Residual Stream Features
-The residual stream is not in a (privileged basis)[https://transformer-circuits.pub/2023/privileged-basis/index.html] so we would not expect acoustic features to be neurons aligned. Instead we trained sparse autoencoders on the residual stream activations and found maximally activating dataset examples for these learnt features.
+The residual stream is not in a [privileged basis][https://transformer-circuits.pub/2023/privileged-basis/index.html] so we would not expect acoustic features to be neurons aligned. Instead we trained sparse autoencoders on the residual stream activations and found maximally activating dataset examples for these learnt features.
 ## encoder.blocks.3 - Learnt using sparse autoencoder
 <details>
 <summary>Dictionary idx=131 ("r")</summary>
