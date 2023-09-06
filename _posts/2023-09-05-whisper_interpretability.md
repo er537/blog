@@ -37,10 +37,10 @@ Often tokens that are close in embedding space are a combination of rhyming word
 ![tea](/blog/assets/images/whisper_interpretability/decoder/embedding_space/tea_embed.png)
 
 
-# Acoustic Features
+# Neuron Acoustic Features
 It turns out that the neurons in the MLP layers of the encoder are highly interpretable; by finding maximally activating dataset examples for all of the neurons we could show that the majority of them activate on a specific phonetic sound. By amplifying the audio around the sequence position where the neuron is maximally active, you can clearly hear these phonemes. Below are some examples:  
 
-## encoder.blocks.3.mlp.1 - Neuron Basis
+### encoder.blocks.3.mlp.1 - Neuron Basis
 <details>
 <summary>Neuron 4 ('said')</summary>
 <audio controls>
@@ -97,7 +97,7 @@ It turns out that the neurons in the MLP layers of the encoder are highly interp
 </audio>
 </details>
 
-## encoder.blocks.2.mlp.1 - Neuron Basis
+### encoder.blocks.2.mlp.1 - Neuron Basis
 <details>
 <summary>Neuron 0 ('m')</summary>
 <audio controls>
@@ -159,8 +159,10 @@ It turns out that the neurons in the MLP layers of the encoder are highly interp
 </details>
 
 ## Residual Stream Features
-The residual stream is not in a [privileged basis][https://transformer-circuits.pub/2023/privileged-basis/index.html] so we would not expect acoustic features to be neurons aligned. Instead we trained sparse autoencoders on the residual stream activations and found maximally activating dataset examples for these learnt features.
-## encoder.blocks.3 - Learnt using sparse autoencoder
+The residual stream is not in a [privileged basis](https://transformer-circuits.pub/2023/privileged-basis/index.html) so we would not expect acoustic features to be neuron aligned. Instead we trained sparse autoencoders on the residual stream activations and found maximally activating dataset examples for these learnt features.
+
+
+### encoder.blocks.3 - Learnt using sparse autoencoder
 <details>
 <summary>Dictionary idx=131 ("r")</summary>
 <audio controls>
@@ -221,7 +223,7 @@ The residual stream is not in a [privileged basis][https://transformer-circuits.
 </audio>
 </details>
 
-## encoder.blocks.2 - Learnt using sparse autoencoder
+### encoder.blocks.2 - Learnt using sparse autoencoder
 <details>
 <summary>Dictionary idx=3 ("an/in/on")</summary>
 <audio controls>
