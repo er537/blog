@@ -324,14 +324,15 @@ The presence of polysemantic neurons in both language and image models is widely
 ## Attention patterns are very localized
 We propagate the attention scores $R_{t}$ down the layers of the encoder as in [Generic Attention-model Explainability for Interpreting Bi-Modal and Encoder-Decoder Transformers](https://arxiv.org/pdf/2103.15679.pdf). This roughly equates to,
 
-
-$$R_{t+1} = R_{t} + \bar A_{t+1} R_{t},$$  
+<div align="center">
+  $$R_{t+1} = R_{t} + \bar A_{t+1} R_{t},$$
+</div>
 
 
 where,  
-
-
-$$\bar A_t = \mathbb{E}[\nabla A_t \circ A_t],$$  
+<div align="center">
+  $$\bar A_t = \mathbb{E}[\nabla A_t \circ A_t],$$  
+</div>
 
 
 $A_{t}$ is the attention pattern in layer $t$ and $\bar A_{t}$ is the attention pattern weighted by gradient contribution. 
