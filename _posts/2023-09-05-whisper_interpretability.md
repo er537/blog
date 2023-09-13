@@ -38,7 +38,7 @@ Often tokens that are close in embedding space are a combination of rhyming word
 
 
 # Neuron Acoustic Features
-It turns out that the neurons in the MLP layers of the encoder are highly interpretable; by finding maximally activating dataset examples for all of the neurons we could show that the majority of them activate on a specific phonetic sound. By amplifying the audio around the sequence position where the neuron is maximally active, you can clearly hear these phonemes. Below are some examples:  
+It turns out that the neurons in the MLP layers of the encoder are highly interpretable; by finding maximally activating dataset examples for all of the neurons we found that the majority activate on a specific phonetic sound! The table below shows these sounds for the first 50 neurons in `block.2.mlp.1`. By amplifying the audio around the sequence position where the neuron is maximally active, you can clearly hear these phonemes, as shown in the audio clips below. 
 
 ### encoder.blocks.3.mlp.1 - Neuron Basis
 <details>
