@@ -368,7 +368,7 @@ The presence of polysemantic neurons in both language and image models is widely
 <div style="display: flex; justify-content: center;">
   <figure>
     <img src="/blog/assets/images/whisper_interpretability/encoder/poly_ch_sh.png" alt="poly_ch_sh" style="max-width: 50%; height: auto;" />
-    <figcaption>Plot of phoneme activations for Neuron 3</figcaption>
+    <figcaption>Plot of phoneme activations for Neuron 1</figcaption>
   </figure>
 </div>
 <div style="display: flex; flex-direction: column; align-items: center;">
