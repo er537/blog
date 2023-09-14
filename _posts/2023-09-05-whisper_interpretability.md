@@ -105,7 +105,7 @@ It turns out that the neurons in the MLP layers of the encoder are highly interp
 
 | Neuron idx | 0   | 1   | 2   | 3   | 4   | 5   | 6   | 7   | 8   | 9   |
 | ---------- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Phoneme    | 'm' | 'ch/sh'  | 'e/a'  | 'c/q'  | 'is'  | 'i'  | noise  | 'w'  | 'l'  | 'the'  |
+| Phoneme    | 'm' | 'j/ch/sh'  | 'e/a'  | 'c/q'  | 'is'  | 'i'  | noise  | 'w'  | 'l'  | 'the'  |
 
 | Neuron idx | 10  | 11  | 12  | 13  | 14  | 15  | 16  | 17  | 18  | 19  |
 | ---------- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
