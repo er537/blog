@@ -105,7 +105,7 @@ It turns out that the neurons in the MLP layers of the encoder are highly interp
 
 | Neuron idx | 0   | 1   | 2   | 3   | 4   | 5   | 6   | 7   | 8   | 9   |
 | ---------- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Phoneme    | 'o' | 'ch/sh'  | 'e/a'  | 'c/q'  | 'is'  | 'i'  | noise  | 'w'  | 'l'  | 'the'  |
+| Phoneme    | 'm' | 'ch/sh'  | 'e/a'  | 'c/q'  | 'is'  | 'i'  | noise  | 'w'  | 'l'  | 'the'  |
 
 | Neuron idx | 10  | 11  | 12  | 13  | 14  | 15  | 16  | 17  | 18  | 19  |
 | ---------- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -218,7 +218,7 @@ It turns out that the neurons in the MLP layers of the encoder are highly interp
 </details>
 
 <details>
-<summary>Neuron 3 ('c')</summary>
+<summary>Neuron 3 ('c/q')</summary>
 <audio controls>
    <source src="/blog/assets/images/whisper_interpretability/audio/b2_mlp1_nb_3pkl_sample4.wav" type="audio/wav">
    Your browser does not support the audio element.
