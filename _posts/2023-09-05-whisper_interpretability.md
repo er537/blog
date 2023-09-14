@@ -366,16 +366,10 @@ The residual stream is not in a [privileged basis](https://transformer-circuits.
 # Polysemantic acoustic neurons
 The presence of polysemantic neurons in both language and image models is widely acknowledged, suggesting the possibility of their existence in acoustic models as well. By listening to dataset examples at different ranges of neuron activation we uncover polysemantic acoustic neurons. Initially, these neurons seem to respond to a single phoneme when you focus solely on the top 10 most active instances. However, plotting the phonemes for varying levels of activations reveals polysemantic behaviour. Presented in the following visualizations of these activations for `neuron 1` and `neuron 3` in `blocks.2.mlp.1`. Additionally, audio samples are provided to illustrate this phenomenon.
 <div style="display: flex; justify-content: center;">
-  <figure>
     <img src="/blog/assets/images/whisper_interpretability/encoder/poly_ch_sh.png" alt="poly_ch_sh" style="width: auto; height: auto;" />
-    <figcaption>Plot of phoneme activations for `neuron 1 block.2.mlp.1`</figcaption>
-  </figure>
 </div>
 <div style="display: flex; flex-direction: column; align-items: center;">
-  <figure>
     <img src="/blog/assets/images/whisper_interpretability/encoder/poly_c_g.png" alt="poly_c_g" style="width: auto; height: auto;" />
-    <figcaption>Plot of phoneme activations for `neuron 3 block.2.mlp.1` </figcaption>
-  </figure>
 </div>
 
 
