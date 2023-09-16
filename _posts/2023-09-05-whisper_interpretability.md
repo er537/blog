@@ -9,8 +9,8 @@ Thus far, Mechanistic Interpretability has primarily focused on language and ima
 
 
 **1) Encoder representations are highly localized  
-2) The neuron basis and residual stream of the encoder learn human interpretable features
-4) The decoder alone acts as a weak LM**  
+2) The neuron basis and residual stream of the encoder learn human interpretable features  
+3) The decoder alone acts as a weak LM**  
 
 *For context: Whisper is a speech-to-text model. It has an encoder-decoder transformer architecture. The input to the encoder is a 30s chunk of audio (shorter chunks can be padded) and the ouput from the decoder is the transcript, predicted autoregressively. It is trained only on labelled speech to text pairs.*
 
