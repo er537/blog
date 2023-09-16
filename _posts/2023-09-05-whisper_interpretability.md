@@ -106,7 +106,7 @@ We can also do this in the middle of the sequence. Here we let (start_index=150,
 
 # 2) The encoder learns human interpretable features
 ## Neuron Basis
-It turns out that the neurons in the MLP layers of the encoder are highly interpretable; by finding maximally activating dataset examples for all of the neurons we found that the majority activate on a specific phonetic sound! The table below shows these sounds for the first 50 neurons in `block.2.mlp.1`. By amplifying the audio around the sequence position where the neuron is maximally active, you can clearly hear these phonemes, as demonstrated by the audio clips below. 
+It turns out that neurons in the MLP layers of the encoder are highly interpretable; by finding maximally activating dataset examples (from a dataset of 10,000 2s audio clips) for all of the neurons we found that the majority activate on a specific phonetic sound! The table below shows these sounds for the first 50 neurons in `block.2.mlp.1`. By amplifying the audio around the sequence position where the neuron is maximally active, you can clearly hear these phonemes, as demonstrated by the audio clips below. 
 
 | Neuron idx | 0   | 1   | 2   | 3   | 4   | 5   | 6   | 7   | 8   | 9   |
 | ---------- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -441,5 +441,22 @@ Often tokens that are close in embedding space are a combination of rhyming word
 
 ## Features in the decoder
 
-Finally, we collect maximally activating dataset examples for the neuron basis of decoder `blocks.0.mlp.1`. We find that they often activate on semantically similar concepts, suggesting that a) the model is already activing on the word level by the first mlp layer and b) it has aquired rudimentary language modelling capabilities.
+Finally, we collected maximally activating dataset examples (using the same dataset of 10,000 2s audio clips) for the neuron basis of decoder `blocks.0.mlp.1`. We find that they often activate on semantically similar concepts, suggesting that a) the model is already activing on the word level by the first MLP layer and b) it has aquired rudimentary language modelling capabilities like a weak LLM. Below we show these maximally ativating dataset examples for some neurons in `decoder.blocks.0.mlp.1`. 
+
+### Neuron 10
+|Example idx | 0 | 1  | 2  | 3  | 4  | 5  | 6  | 7  | 8  |9|
+| ---------- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Transcript  | Better food. |  I'm a steak  | cheese  |  on a meal. |  this salad |  I've been eating |  for lunch | Rice | and after dinner | dinner | |
+
+## Neuron 12
+|Example idx | 0 | 1  | 2  | 3  | 4  | 5  | 6  | 7  | 8  | 9 |
+| ---------- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Transcript  | than 15 |  the 8th  | at 5  |  Amen Perth |  of 16th |  the 20th |  6th year | Until the 6th | 3,000 | Stay at 4th | |
+
+## Neuron 14
+|Example idx | 0 | 1  | 2  | 3  | 4  | 5  | 6  | 7  | 8  |
+| ---------- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Transcript  | or throw |  to knock the rear  | or shaking  |  such knock |  I'll drill you |  was brushing |  Just throw | swept the | to struck |
+
+
 
