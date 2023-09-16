@@ -455,7 +455,7 @@ Finally, we collected maximally activating dataset examples (using the same data
 
 ## Neuron 14
 |Example idx | 0 | 1  | 2  | 3  | 4  | 5  | 6  | 7  | 8  |
-| ---------- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| ---------- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Transcript  | or throw |  to knock the rear  | or shaking  |  such knock |  I'll drill you |  was brushing |  Just throw | swept the | to struck |
 
 
