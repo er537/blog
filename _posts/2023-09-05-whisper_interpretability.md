@@ -9,7 +9,7 @@ Thus far, Mechanistic Interpretability has primarily focused on language and ima
 
 
 **1) Encoder representations are highly localized  
-2) The neuron basis and residual stream of the encoder learn human interpretable features  
+2) The encoder learns human interpretable features  
 3) The decoder alone acts as a weak LM**  
 
 *For context: Whisper is a speech-to-text model. It has an encoder-decoder transformer architecture and Whisper tiny is only 39M parameters! The input to the encoder is a 30s chunk of audio (shorter chunks can be padded) and the ouput from the decoder is the transcript, predicted autoregressively. It is trained only on labelled speech to text pairs.*
@@ -104,7 +104,7 @@ We can also do this in the middle of the sequence. Here we let (start_index=150,
 `hot ones. The show where celebrities while feeding even hotter wings.` 
 
 
-# 2) The Neuron Basis and Residual Stream of the Encoder learn human interpretable features
+# 2) The encoder learns human interpretable features
 ## Neuron Basis
 It turns out that the neurons in the MLP layers of the encoder are highly interpretable; by finding maximally activating dataset examples for all of the neurons we found that the majority activate on a specific phonetic sound! The table below shows these sounds for the first 50 neurons in `block.2.mlp.1`. By amplifying the audio around the sequence position where the neuron is maximally active, you can clearly hear these phonemes, as demonstrated by the audio clips below. 
 
