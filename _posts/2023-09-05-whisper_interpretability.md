@@ -5,7 +5,7 @@ title: Interpretting Whisper
 *(Work done as part of [SERI MATS](https://www.serimats.org/) Summer 2023 cohort under the supervision of Lee Sharkey.)*
 
 
-Thus far, Mechanistic Interpretability has primarily focused on language and image models. To develop a universal model for interpretability we need techniques that transfer across modalities. I have therefore applied variants of existing interpretability techniques to OpenAI's Whisper, uncovering some interesting properties which I share here. Specifically, I make 3 claims about the model:
+Thus far, Mechanistic Interpretability has primarily focused on language and image models. To develop a universal model for interpretability we need techniques that transfer across modalities. I have therefore attempted to do mechanistic interpretability on OpenAI's Whisper and here I present some of my findings. This post is structured into 3 main claims I make about Whisper:
 **1) The representations learnt by the encoder are highly localized
 2) The features learnt by the encoder are human interpretable and the neuron basis is suprisingly mono-semantic
 3) The decoder alone is a weak LM**
