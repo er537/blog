@@ -8,14 +8,15 @@ title: Interpretting Whisper
 Thus far, Mechanistic Interpretability has primarily focused on language and image models. To develop a universal model for interpretability we need techniques that transfer across modalities. I have therefore attempted to do mechanistic interpretability on OpenAI's Whisper model and here I present some of my findings. This post is structured into 3 main claims that I make about the model:
 
 
-**1) The representations learnt by the encoder are highly localized  
-2) The features learnt by the encoder are human interpretable and the neuron basis is suprisingly mono-semantic  
-4) The decoder alone is a weak LM**  
+**1) Encoder representations are highly localized  
+2) The neuron basis and residual stream of the encoder learn human interpretable features
+4) The decoder alone acts as a weak LM**  
 
 *For context: Whisper is a speech-to-text model. It has an encoder-decoder transformer architecture. The input to the encoder is a 30s chunk of audio (shorter chunks can be padded) and the ouput from the decoder is the transcript, predicted autoregressively. It is trained only on labelled speech to text pairs.*
 
+# 1) Encoder representations are highly localized  
 
-# Macroscopic Properties of the Encoder
+Below I present 3 experiments that suggest that the representations at the output of the decoder are highly localized; that is, they do not use much information from sequence positions outside of a narrow attention window. This is in contrast to a standard LLM which often attends to source tokens far away from the destination token.
 
 ## Attention patterns are very localized
 We propagate the attention scores $R_{t}$ down the layers of the encoder as in [Generic Attention-model Explainability for Interpreting Bi-Modal and Encoder-Decoder Transformers](https://arxiv.org/pdf/2103.15679.pdf). This roughly equates to,
@@ -102,7 +103,9 @@ We can also do this in the middle of the sequence. Here we let (start_index=150,
 ##### Substitute embeddings between (start_index=150, stop_index=175):  
 `hot ones. The show where celebrities while feeding even hotter wings.` 
 
-# Neuron Acoustic Features
+
+# 2) The Neuron Basis and Residual Stream of the Encoder learn human interpretable features
+## Neuron Basis
 It turns out that the neurons in the MLP layers of the encoder are highly interpretable; by finding maximally activating dataset examples for all of the neurons we found that the majority activate on a specific phonetic sound! The table below shows these sounds for the first 50 neurons in `block.2.mlp.1`. By amplifying the audio around the sequence position where the neuron is maximally active, you can clearly hear these phonemes, as demonstrated by the audio clips below. 
 
 | Neuron idx | 0   | 1   | 2   | 3   | 4   | 5   | 6   | 7   | 8   | 9   |
@@ -240,7 +243,7 @@ It turns out that the neurons in the MLP layers of the encoder are highly interp
 </details>
 
 ## Residual Stream Features
-The residual stream is not in a [privileged basis](https://transformer-circuits.pub/2023/privileged-basis/index.html) so we would not expect acoustic features to be neuron aligned. Instead we trained sparse autoencoders on the residual stream activations and found maximally activating dataset examples for these learnt features.
+The residual stream is not in a [privileged basis](https://transformer-circuits.pub/2023/privileged-basis/index.html) so we would not expect the features it learns to be neuron aligned. Instead we trained [sparse autoencoders](https://www.lesswrong.com/posts/z6QQJbtpkEAX3Aojj/interim-research-report-taking-features-out-of-superposition) on the residual stream activations and found maximally activating dataset examples for these learnt features. Below are some examples of these features:
 
 
 ### encoder.blocks.3 - Learnt using sparse autoencoder
@@ -366,7 +369,7 @@ The residual stream is not in a [privileged basis](https://transformer-circuits.
 </details>
 
 # Polysemantic acoustic neurons
-The presence of polysemantic neurons in both language and image models is widely acknowledged, suggesting the possibility of their existence in acoustic models as well. By listening to dataset examples at different ranges of neuron activation we uncover polysemantic acoustic neurons. Initially, these neurons seem to respond to a single phoneme when you focus solely on the top 10 most active instances. However, plotting the phonemes for varying levels of activations reveals polysemantic behaviour. Presented in the following visualizations of these activations for `neuron 1` and `neuron 3` in `blocks.2.mlp.1`. Additionally, audio samples are provided to illustrate this phenomenon.
+The presence of polysemantic neurons in both language and image models is widely acknowledged, suggesting the possibility of their existence in acoustic models as well. By listening to dataset examples at different ranges of neuron activation we were able to uncover these polysemantic acoustic neurons. Initially, these neurons appeared to respond to a single phoneme when you only listen to the max activating dataset examples.  However, listening to examples at varying levels of activation reveals polysemantic behaviour. Presented in the following plots are the sounds that `neuron 1` and `neuron 3` in `blocks.2.mlp.1` activate on  at different ranges of activation. Additionally, audio samples are provided to illustrate this phenomenon.
 <div style="display: flex; justify-content: center;">
     <img src="/blog/assets/images/whisper_interpretability/encoder/poly_ch_sh.png" alt="poly_ch_sh" style="width: auto; height: auto;" />
 </div>
