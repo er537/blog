@@ -410,17 +410,17 @@ The presence of polysemantic neurons in both language and image models is widely
 </details>
 
 # The decoder is a weak LM
-Whisper is trained exclusively on supervised speech-to-text data; the decoder is **not** pre-trained on text. In spite of this, the model still acquires rudimentary language modeling capabilities. While this outcome isn't unexpected, the subsequent experiments that validate this phenomenon are quite interesting in themselves.
+Whisper is trained exclusively on supervised speech-to-text data; the decoder is **not** pre-trained on text. In spite of this, the model still acquires rudimentary language modeling capabilities. While this outcome isn't unexpected, the subsequent experiments that validate this phenomenon are quite interesting/amusing in themselves.
 
 
 ## Bigrams
-If we use just padding frames as the input of the encoder and 'prompt' the decoder we can recover bigram statistics. For example,
-
-The start of the transcription is normally indicated by:\
+If we just use 'padding' frames as the input of the encoder and 'prompt' the decoder we can recover bigram statistics. For example, at the start of transcription, the decoder is normally prompted with:\
 `<|startoftranscript|><|en|><|transcribe|>`
 
-Instead we set it to be:\
-`<|startoftranscript|><|en|><|transcribe|> <prompt>`
+Instead we set the 'prompt' to be:\
+`<|startoftranscript|><|en|><|transcribe|> <our_prompt_token>`
+
+This is analogous to telling the model that the first word in the transcription is `<our_prompt_token>`.  
 
 Below we plot the top 20 most likely next tokens and their corresponding logit for a variety of prompts. We can see that when the model has no acoustic information it relys on learnt bigrams.
 
@@ -430,7 +430,7 @@ Below we plot the top 20 most likely next tokens and their corresponding logit f
 
 ## Embedding space
 
-Bigram statistics are often learnt by the token embedding layer in transformer language models. Additionally, we observe semantically similar words clustered in embedding space. This phenomenon holds for Whisper model, but additionally we discover that words with **similar sounds** also exhibit proximity in the embedding space. To illustrate this, we choose specific words and then create a plot of the 20 nearest tokens based on their cosine similarity.\
+Bigram statistics are often learnt by the token embedding layer in transformer language models. Additionally in LLMs, we observe semantically similar words clustered in embedding space. This phenomenon also holds for Whisper, but additionally we discover that words with **similar sounds** also exhibit proximity in the embedding space. To illustrate this, we choose specific words and then create a plot of the 20 nearest tokens based on their cosine similarity.\
 \
 'rug' is close in embedding space to lug, mug and tug. This is not very surprising of a speech-to-text model; if you *think* you hear the word 'rug', it is quite likely that the word was in fact lug or mug.
 ![rug](/blog/assets/images/whisper_interpretability/decoder/embedding_space/rug_embed.png)
@@ -438,4 +438,8 @@ Often tokens that are close in embedding space are a combination of rhyming word
 ![UK](/blog/assets/images/whisper_interpretability/decoder/embedding_space/UK_embed.png)
 ![duck](/blog/assets/images/whisper_interpretability/decoder/embedding_space/duck_embed.png)
 ![tea](/blog/assets/images/whisper_interpretability/decoder/embedding_space/tea_embed.png)
+
+## Features in the decoder
+
+Finally, we collect maximally activating dataset examples for the neuron basis of decoder `blocks.2.mlp.1` and a learnt sparse coding dictionary for the residual stream after layer 2 of the decoder. We find that they often activate on semantically similar concepts, similar to a weak LLM.
 
