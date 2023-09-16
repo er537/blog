@@ -441,5 +441,5 @@ Often tokens that are close in embedding space are a combination of rhyming word
 
 ## Features in the decoder
 
-Finally, we collect maximally activating dataset examples for the neuron basis of decoder `blocks.2.mlp.1` and a learnt sparse coding dictionary for the residual stream after layer 2 of the decoder. We find that they often activate on semantically similar concepts, similar to a weak LLM.
+Finally, we collect maximally activating dataset examples for the neuron basis of decoder `blocks.0.mlp.1`. We find that they often activate on semantically similar concepts, suggesting that a) the model is already activing on the word level by the first mlp layer and b) it has aquired rudimentary language modelling capabilities.
 
