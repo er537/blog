@@ -116,6 +116,10 @@ It turns out that neurons in the MLP layers of the encoder are highly interpreta
 | ---------- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Phoneme    | 'I' | N/A | noise  | vowels  | r  | st  | I | N/A  | ch  | p |
 
+| Neuron idx | 20  | 21  | 22  | 23  | 24  | 25  | 26  | 27  | 28  | 29  |
+| ---------- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Phoneme    | 'I' | 'l'  | 'th'  | 'g'  | 'b/d'  | N/A  | N/A  | N/A  | 'u/A'  | N/A  |
+
 | Neuron idx | 30  | 31  | 32  | 33  | 34  | 35  | 36  | 37  | 38  | 39  |
 | ---------- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Phoneme    | N/A | N/A  | 'd'  | 'p'  | 'n'  | 'q'  | 'a'  | 'A/E/I'  | *microphone turning on*  | 'i'  |
