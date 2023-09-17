@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Interpretting Whisper
+title: Interpreting Whisper
 ---
 *(Work done as part of [SERI MATS](https://www.serimats.org/) Summer 2023 cohort under the supervision of Lee Sharkey.)*
 
