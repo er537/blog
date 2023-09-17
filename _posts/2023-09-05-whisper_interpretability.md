@@ -441,7 +441,6 @@ Bigram statistics are often learnt by the token embedding layer in transformer l
 Often tokens that are close in embedding space are a combination of rhyming words **and** semantically similar words:
 ![UK](/blog/assets/images/whisper_interpretability/decoder/embedding_space/UK_embed.png)
 ![duck](/blog/assets/images/whisper_interpretability/decoder/embedding_space/duck_embed.png)
-![tea](/blog/assets/images/whisper_interpretability/decoder/embedding_space/tea_embed.png)
 
 ## Features in the decoder
 
