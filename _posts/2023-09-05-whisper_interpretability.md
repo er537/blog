@@ -447,11 +447,13 @@ Often tokens that are close in embedding space are a combination of rhyming word
 Finally, we collected maximally activating dataset examples (using the same dataset of 10,000 2s audio clips) for the neuron basis of decoder `blocks.0.mlp.1`. We find that they often activate on semantically similar concepts, suggesting that a) the model is already activing on the word level by the first MLP layer and b) it has aquired rudimentary language modelling capabilities like a weak LLM. Below we show the transcripts for the maximally activating dataset examples for some neurons in `decoder.blocks.0.mlp.1`. 
 
 ### Neuron 10
-|Example idx | 0 | 1  | 2  | 3  | 4  | 5  | 6  | 7  | 8  |9|
+
+|Example idx | 0 | 1  | 2  | 3  | 4  | 5  | 6  | 7  | 8  | 9 |
 | ---------- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Transcript  | Better food. |  I'm a steak  | cheese  |  on a meal. |  this salad |  I've been eating |  for lunch | Rice | and after dinner | dinner |
 
 ## Neuron 12
+
 |Example idx | 0 | 1  | 2  | 3  | 4  | 5  | 6  | 7  | 8  | 9 |
 | ---------- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Transcript  | than 15 |  the 8th  | at 5  |  Amen Perth |  of 16th |  the 20th |  6th year | Until the 6th | 3,000 | Stay at 4th |
