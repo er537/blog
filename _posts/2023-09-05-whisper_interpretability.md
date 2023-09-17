@@ -5,16 +5,20 @@ title: Interpreting Whisper
 *(Work done as part of [SERI MATS](https://www.serimats.org/) Summer 2023 cohort under the supervision of Lee Sharkey.)*
 
 
-Thus far, Mechanistic Interpretability has primarily focused on language and image models. To develop a universal model for interpretability we need techniques that transfer across modalities. I have therefore attempted to do mechanistic interpretability on OpenAI's Whisper **tiny** model and here I present some of my findings. This post is structured into 3 main claims that I make about the model:
+Thus far, Mechanistic Interpretability has primarily focused on language and image models. GPT-4 is already multimodal (image and text) and before long we are likely to have fully multimodal models that can interact with images, text, audio and video. To develop a universal model for interpretability we need techniques that transfer across all these modalities. Thus far however, there have been no series attempts to do mechanistic interp on audio models, let alone multimodal models. This is worrying because there could easily be parts of these multimodal models performing dangeous/deceptive computation that we are unable to interpret. I have therefore spent some time doing mechanistic interpretability on OpenAI's Whisper model. Here I present some of my findings. 
 
+This post is structured into 3 main claims that I make about the model:
+In the opener, I think you can make a more convincing case for why people in the safety community / people in general should care about this. To me, the basic case is:
 
-**1) Encoder representations are highly localized  
+Additionally, your work pioneers ways to make audio features legible to humans.
+
+**1) Encoder attention is highly localized  
 2) The encoder learns human interpretable features  
 3) The decoder alone acts as a weak LM**  
 
-*For context: Whisper is a speech-to-text model. It has an encoder-decoder transformer architecture and Whisper tiny is only 39M parameters! The input to the encoder is a 30s chunk of audio (shorter chunks can be padded) and the ouput from the decoder is the transcript, predicted autoregressively. It is trained only on labelled speech to text pairs.*
+*For context: Whisper is a speech-to-text model. It has an encoder-decoder transformer architecture shown below. We used Whisper tiny which is only 39M parameters but remarkably good at transcription! The input to the encoder is a 30s chunk of audio (shorter chunks can be padded) and the ouput from the decoder is the transcript, predicted autoregressively. It is trained only on labelled speech to text pairs.*
 
-# 1) Encoder representations are highly localized  
+# 1) Encoder attention is highly localized  
 
 Below I present 3 experiments that suggest that the representations at the output of the decoder are highly localized; that is, they do not use much information from sequence positions outside of a narrow attention window. This is in contrast to a standard LLM which often attends to source tokens far away from the destination token.
 
