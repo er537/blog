@@ -8,9 +8,6 @@ title: Interpreting Whisper
 Thus far, Mechanistic Interpretability has primarily focused on language and image models. GPT-4 is already multimodal (image and text) and before long we are likely to have fully multimodal models that can interact with images, text, audio and video. To develop a universal model for interpretability we need techniques that transfer across all these modalities. Thus far however, there have been no series attempts to do mechanistic interp on audio models, let alone multimodal models. This is worrying because there could easily be parts of these multimodal models performing dangeous/deceptive computation that we are unable to interpret. I have therefore spent some time doing mechanistic interpretability on OpenAI's Whisper model. Here I present some of my findings. 
 
 This post is structured into 3 main claims that I make about the model:
-In the opener, I think you can make a more convincing case for why people in the safety community / people in general should care about this. To me, the basic case is:
-
-Additionally, your work pioneers ways to make audio features legible to humans.
 
 **1) Encoder attention is highly localized  
 2) The encoder learns human interpretable features  
