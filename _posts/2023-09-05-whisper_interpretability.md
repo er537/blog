@@ -16,7 +16,7 @@ Additionally, your work pioneers ways to make audio features legible to humans.
 2) The encoder learns human interpretable features  
 3) The decoder alone acts as a weak LM**  
 
-*For context: Whisper is a speech-to-text model. It has an encoder-decoder transformer architecture shown below. We used Whisper tiny which is only 39M parameters but remarkably good at transcription! The input to the encoder is a 30s chunk of audio (shorter chunks can be padded) and the ouput from the decoder is the transcript, predicted autoregressively. It is trained only on labelled speech to text pairs.*
+*For context: Whisper is a speech-to-text model. It has an encoder-decoder transformer architecture as shown below. We used Whisper tiny which is only 39M parameters but remarkably good at transcription! The input to the encoder is a 30s chunk of audio (shorter chunks can be padded) and the ouput from the decoder is the transcript, predicted autoregressively. It is trained only on labelled speech to text pairs.*
 
 # 1) Encoder attention is highly localized  
 
