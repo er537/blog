@@ -465,5 +465,8 @@ Finally, we collected maximally activating dataset examples (using the same data
 | ---------- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Transcript  | or throw |  to knock the rear  | or shaking  |  such knock |  I'll drill you |  was brushing |  Just throw | swept the | to struck |
 
+# Conclusion
+
+To our knowledge, this work presents the first attempt to do interpretability on a multimodal audio/text model. We have demonstrated that acoustic features are human interpretable, formulated a way of listening to them and presented some macroscopic properties of Whisper's encoder and decoder. This is a first step in developing universal interpretability techniques that can be used to detect dangerous/deceptive computation in multimodal models. This work is however by no means comprehensive. A notable limitation is that we simply used dataset examples to demonstrate acoustic features (rather than using an optimization based methods like DeepDream) potentially biasing features towards the dataset. Future work would include getting an optimization based feature visualization method working in the audio domain, in addition to looking more closely into how the acoustic features in the encoder are mapped to the linguistic ones in the decoder. 
 
 
