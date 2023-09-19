@@ -4,8 +4,10 @@ title: Interpreting Whisper
 ---
 *(Work done as part of [SERI MATS](https://www.serimats.org/) Summer 2023 cohort under the supervision of Lee Sharkey.)*
 
+TL;DR - Mechanistic Interpretability has mainly focused on language and image models, but there's a growing need for interpretability in multimodal models that can handle text, images, audio, and video. I therefore spent my time on SERI MATS doing mechanistic interpretability on OpenAI's Whisper speech-to-text model. Here I present some of my results. 
 
-Thus far, Mechanistic Interpretability has primarily focused on language and image models. GPT-4 is already multimodal (image and text) and before long we are likely to have fully multimodal models that can interact with images, text, audio and video. To develop a universal model for interpretability we need techniques that transfer across all these modalities. Thus far however, there have been no series attempts to do mechanistic interp on audio models, let alone multimodal models. This is worrying because there could easily be parts of these multimodal models performing dangeous/deceptive computation that we are unable to interpret. I have therefore spent some time doing mechanistic interpretability on OpenAI's Whisper model. Here I present some of my findings. 
+# Why we should care about interpreting multimodal models
+Up to this point, the main focus in mechanistic interpretability has centred around language and image models. GPT-4, which currently inputs both text and images, is paving the way for the development of fully multimodal models capable of handling images, text, audio, and video. To develop a universal model for interpretability, we need techniques that transfer across all these modalities. Notably, there have been minimal efforts directed toward interpreting audio models, let alone multimodal ones. This raises concerns because there might be components within these multimodal models performing dangerous/deceptive computation that we are unable to interpret. Therefore, I have spend some time doing mechanistic interpretability on OpenAI's Whisper model, and here I share some of the insights I have gained. 
 
 This post is structured into 3 main claims that I make about the model:
 
@@ -19,7 +21,6 @@ This post is structured into 3 main claims that I make about the model:
 
 Below I present 3 experiments that suggest that the representations at the output of the decoder are highly localized; that is, they do not use much information from sequence positions outside of a narrow attention window. This is in contrast to a standard LLM which often attends to source tokens far away from the destination token.
 
-## Attention patterns are very localized
 We propagate the attention scores $R_{t}$ down the layers of the encoder as in [Generic Attention-model Explainability for Interpreting Bi-Modal and Encoder-Decoder Transformers](https://arxiv.org/pdf/2103.15679.pdf). This roughly equates to,
 
 <div align="center">
@@ -39,7 +40,7 @@ This produces the striking pattern below; up to the point where the audio ends, 
     <img src="/blog/assets/images/whisper_interpretability/encoder/attention_scores.png" alt="attn_scores" style="max-width: 100%; height: auto;" />
 </div>
 
-## Constraining the attention window
+## Constraining the attention window has minimal effects on performance
 Given how localized the attention pattern appears to be, we investigate what happens if we constrain it so that every audio embedding can only attend to the k nearest tokens on either side. Eg if k=2 we would we apply the following mask to the attention scores before the softmax:
 <div>
     <img src="/blog/assets/images/whisper_interpretability/encoder/attn_mask.png" alt="attn_mask" style="width:300px; height:300px;" />
@@ -72,8 +73,8 @@ Here are the transcripts that emerge as we limit the attention window for variou
 ##### k=10:  
 ""
 
-## Removing words in embedding space
-Recall that Whisper is an encoder-decoder transformer; the decoder cross-attends to the output of the final layer of the encoder. Given the apparent localization of the embeddings in this final layer, we postulate that we could remove words from the transcript by 'chopping' them out in embedding space. Concretely we let,
+## We can precisely remove words from a transcript by removing their corresponding embeddings
+Recall that Whisper is an encoder-decoder transformer; the decoder cross-attends to the output of the final layer of the encoder. Given the apparent localization of the embeddings in this final layer, we postulate that we could remove words from the transcript by 'chopping' out their corresponding embeddings. Concretely we let,
 
 `final_layer_output[start_index:stop_index] = final_layer_output_for_padded_input[start_index:stop_index]`,
 
@@ -106,7 +107,7 @@ We can also do this in the middle of the sequence. Here we let (start_index=150,
 
 
 # 2) The encoder learns human interpretable features
-## Neuron Basis
+
 It turns out that neurons in the MLP layers of the encoder are highly interpretable; by finding maximally activating dataset examples (from a dataset of 10,000 2s audio clips) for all of the neurons we found that the majority activate on a specific phonetic sound! The table below shows these sounds for the first 50 neurons in `block.2.mlp.1`. By amplifying the audio around the sequence position where the neuron is maximally active, you can clearly hear these phonemes, as demonstrated by the audio clips below. 
 
 | Neuron idx | 0   | 1   | 2   | 3   | 4   | 5   | 6   | 7   | 8   | 9   |
@@ -248,8 +249,7 @@ It turns out that neurons in the MLP layers of the encoder are highly interpreta
 </details>
 
 ## Residual Stream Features
-The residual stream is not in a [privileged basis](https://transformer-circuits.pub/2023/privileged-basis/index.html) so we would not expect the features it learns to be neuron aligned. Instead we trained [sparse autoencoders](https://www.lesswrong.com/posts/z6QQJbtpkEAX3Aojj/interim-research-report-taking-features-out-of-superposition) on the residual stream activations and found maximally activating dataset examples for these learnt features. Below are some examples of these features:
-
+The residual stream is not in a [privileged basis](https://transformer-circuits.pub/2023/privileged-basis/index.html) so we would not expect the features it learns to be neuron aligned. We can however train [sparse autoencoders](https://www.lesswrong.com/posts/z6QQJbtpkEAX3Aojj/interim-research-report-taking-features-out-of-superposition) on the residual stream activations and find maximally activating dataset examples for these learnt features. We also find these to be highly interpretable and often correspond to phonemes. Below are some examples of these features:
 
 ### encoder.blocks.3 - Learnt using sparse autoencoder
 <details>
@@ -373,7 +373,7 @@ The residual stream is not in a [privileged basis](https://transformer-circuits.
 </audio>
 </details>
 
-# Polysemantic acoustic neurons
+# Acoustic neurons are also polysemantic
 The presence of polysemantic neurons in both language and image models is widely acknowledged, suggesting the possibility of their existence in acoustic models as well. By listening to dataset examples at different ranges of neuron activation we were able to uncover these polysemantic acoustic neurons. Initially, these neurons appeared to respond to a single phoneme when you only listen to the max activating dataset examples.  However, listening to examples at varying levels of activation reveals polysemantic behaviour. Presented in the following plots are the sounds that `neuron 1` and `neuron 3` in `blocks.2.mlp.1` activate on  at different ranges of activation. Additionally, audio samples are provided to illustrate this phenomenon.
 <div style="display: flex; justify-content: center;">
     <img src="/blog/assets/images/whisper_interpretability/encoder/poly_ch_sh.png" alt="poly_ch_sh" style="width: auto; height: auto;" />
@@ -418,7 +418,7 @@ The presence of polysemantic neurons in both language and image models is widely
 Whisper is trained exclusively on supervised speech-to-text data; the decoder is **not** pre-trained on text. In spite of this, the model still acquires rudimentary language modeling capabilities. While this outcome isn't unexpected, the subsequent experiments that validate this phenomenon are quite interesting/amusing in themselves.
 
 
-## Bigrams
+## Whisper learns language modelling bigrams
 If we just use 'padding' frames as the input of the encoder and 'prompt' the decoder we can recover bigram statistics. For example, at the start of transcription, the decoder is normally prompted with:\
 `<|startoftranscript|><|en|><|transcribe|>`
 
@@ -433,9 +433,9 @@ Below we plot the top 20 most likely next tokens and their corresponding logit f
 ![traffic](/blog/assets/images/whisper_interpretability/decoder/prompt_images/traffic_prompt.png)
 ![Good](/blog/assets/images/whisper_interpretability/decoder/prompt_images/Good_prompt.png)
 
-## Embedding space
+## Words embeddings are clustered by semantic and acoustic similarity
 
-Bigram statistics are often learnt by the token embedding layer in transformer language models. Additionally in LLMs, we observe semantically similar words clustered in embedding space. This phenomenon also holds for Whisper, but additionally we discover that words with **similar sounds** also exhibit proximity in the embedding space. To illustrate this, we choose specific words and then create a plot of the 20 nearest tokens based on their cosine similarity.\
+In LLMs, we observe that semantically similar words clustered in embedding space. This phenomenon also holds for Whisper, but additionally we discover that **similar sounding** words also exhibit proximity in the embedding space. To illustrate this, we choose specific words and then create a plot of the 20 nearest tokens based on their cosine similarity.\
 \
 'rug' is close in embedding space to lug, mug and tug. This is not very surprising of a speech-to-text model; if you *think* you hear the word 'rug', it is quite likely that the word was in fact lug or mug.
 ![rug](/blog/assets/images/whisper_interpretability/decoder/embedding_space/rug_embed.png)
@@ -443,9 +443,9 @@ Often tokens that are close in embedding space are a combination of rhyming word
 ![UK](/blog/assets/images/whisper_interpretability/decoder/embedding_space/UK_embed.png)
 ![duck](/blog/assets/images/whisper_interpretability/decoder/embedding_space/duck_embed.png)
 
-## Features in the decoder
+## The decoder learns semantic features analogous to those found in LLMs
 
-Finally, we collected maximally activating dataset examples (using the same dataset of 10,000 2s audio clips) for the neuron basis of decoder `blocks.0.mlp.1`. We find that they often activate on semantically similar concepts, suggesting that a) the model is already activing on the word level by the first MLP layer and b) it has aquired rudimentary language modelling capabilities like a weak LLM. Below we show the transcripts for the maximally activating dataset examples for some neurons in `decoder.blocks.0.mlp.1`. 
+Finally, we collected maximally activating dataset examples (using the same dataset of 10,000 2s audio clips) for the neuron basis of the decoder `blocks.0.mlp.1`. We find that even in the first layer of the decoder they often activate on semantically similar concepts. This suggests that a) the model is already operating on the word level by the first MLP layer and b) it has aquired rudimentary language modelling capabilities like a weak LLM. Below we show the transcripts for the maximally activating dataset examples for some neurons in `decoder.blocks.0.mlp.1`. 
 
 ### Neuron 10 - Food Related
 
