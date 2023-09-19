@@ -17,7 +17,7 @@ This post is structured into 3 main claims that I make about the model:
 
 *For context: Whisper is a speech-to-text model. It has an encoder-decoder transformer architecture as shown below. We used Whisper tiny which is only 39M parameters but remarkably good at transcription! The input to the encoder is a 30s chunk of audio (shorter chunks can be padded) and the output from the decoder is the transcript, predicted autoregressively. It is trained only on labelled speech to text pairs.*
 
-![very](/blog/assets/images/whisper_interpretability/whisper.png)
+![whisper](/blog/assets/images/whisper_interpretability/whisper.png)
 
 # 1) Encoder attention is highly localized  
 
