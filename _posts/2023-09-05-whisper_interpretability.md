@@ -46,11 +46,11 @@ Given how localized the attention pattern appears to be, we investigate what hap
     <img src="/blog/assets/images/whisper_interpretability/encoder/attn_mask.png" alt="attn_mask" style="width:300px; height:300px;" />
 </div>
 
-Here are the transcripts that emerge as we limit the attention window for various k values. We observe that even when k is reduced to 75, the model continues to generate reasonably precise transcripts, indicating that information is being encoded in a localized manner.
+Here are the transcripts that emerge as we limit the attention window for various k values. We observe that even when k is reduced to 75 (normally k=750), the model continues to generate reasonably precise transcripts, indicating that information is being encoded in a localized manner.
 
 
 
-##### Original transcript (seq_len=1500):  
+##### Original transcript (k=750):  
 'hot ones. The show where celebrities answer hot questions while feeding even hotter wings.' 
 
 
