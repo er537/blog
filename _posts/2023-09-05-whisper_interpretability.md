@@ -415,7 +415,7 @@ The presence of polysemantic neurons in both language and image models is widely
 </details>
 
 
-<h1 id="section3">3) The decoder is a weak LM</h1>
+<h1 id="section3">3) The decoder alone acts as a weak LM</h1>
 
 Whisper is trained exclusively on supervised speech-to-text data; the decoder is **not** pre-trained on text. In spite of this, the model still acquires rudimentary language modeling capabilities. While this outcome isn't unexpected, the subsequent experiments that validate this phenomenon are quite interesting/amusing in themselves.
 
