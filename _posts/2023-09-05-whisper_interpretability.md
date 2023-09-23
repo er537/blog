@@ -11,16 +11,15 @@ Up to this point, the main focus in mechanistic interpretability has centred aro
 
 This post is structured into 3 main claims that I make about the model:
 
-**[1) Encoder attention is highly localized](#section1)
-2) The encoder learns human interpretable features  
-3) The decoder alone acts as a weak LM**  
+**[1) Encoder attention is highly localized](#section1)  
+[2) The encoder learns human interpretable features](#section2)  
+[3) The decoder alone acts as a weak LM**](#section3)**  
 
 *For context: Whisper is a speech-to-text model. It has an encoder-decoder transformer architecture as shown below. We used Whisper tiny which is only 39M parameters but remarkably good at transcription! The input to the encoder is a 30s chunk of audio (shorter chunks can be padded) and the output from the decoder is the transcript, predicted autoregressively. It is trained only on labelled speech to text pairs.*
 
 ![whisper](/blog/assets/images/whisper_interpretability/whisper.png)
 
-# 1) Encoder attention is highly localized
-<h2 id="section1">1) Encoder attention is highly localized</h2>
+<h1 id="section1">1) Encoder attention is highly localized</h1>
 
 Below I present 3 experiments that suggest that the representations learnt by the encoder are highly localized; that is, they do not use much information from sequence positions outside of a narrow attention window. This is in contrast to a standard LLM which often attends to source tokens based on semantic content rather than distance to the destination token.
 
@@ -108,8 +107,7 @@ We can also do this in the middle of the sequence. Here we let (start_index=150,
 ##### Substitute embeddings between (start_index=150, stop_index=175):  
 `hot ones. The show where celebrities while feeding even hotter wings.` 
 
-
-# 2) The encoder learns human interpretable features
+<h1 id="section2">2) The encoder learns human interpretable features</h1>
 
 It turns out that neurons in the MLP layers of the encoder are highly interpretable; by finding maximally activating dataset examples (from a dataset of 10,000 2s audio clips) for all of the neurons we found that the majority activate on a specific phonetic sound! The table below shows these sounds for the first 50 neurons in `block.2.mlp.1`. By amplifying the audio around the sequence position where the neuron is maximally active, you can clearly hear these phonemes, as demonstrated by the audio clips below. 
 
@@ -386,7 +384,6 @@ The presence of polysemantic neurons in both language and image models is widely
 </div>
 
 
-
 ## Audio samples for polysemantic neurons
 
 <details>
@@ -417,7 +414,9 @@ The presence of polysemantic neurons in both language and image models is widely
 </audio>
 </details>
 
-# The decoder is a weak LM
+
+<h1 id="section3">3) The decoder is a weak LM</h1>
+
 Whisper is trained exclusively on supervised speech-to-text data; the decoder is **not** pre-trained on text. In spite of this, the model still acquires rudimentary language modeling capabilities. While this outcome isn't unexpected, the subsequent experiments that validate this phenomenon are quite interesting/amusing in themselves.
 
 
