@@ -11,7 +11,7 @@ Up to this point, the main focus in mechanistic interpretability has centred aro
 
 This post is structured into 3 main claims that I make about the model:
 
-**1) Encoder attention is highly localized  
+**[1) Encoder attention is highly localized](#section1)
 2) The encoder learns human interpretable features  
 3) The decoder alone acts as a weak LM**  
 
@@ -19,7 +19,8 @@ This post is structured into 3 main claims that I make about the model:
 
 ![whisper](/blog/assets/images/whisper_interpretability/whisper.png)
 
-# 1) Encoder attention is highly localized  
+# 1) Encoder attention is highly localized
+<h2 id="section1">1) Encoder attention is highly localized</h2>
 
 Below I present 3 experiments that suggest that the representations learnt by the encoder are highly localized; that is, they do not use much information from sequence positions outside of a narrow attention window. This is in contrast to a standard LLM which often attends to source tokens based on semantic content rather than distance to the destination token.
 
