@@ -440,13 +440,13 @@ Finally, we collected maximally activating dataset examples (using the same data
 | ---------- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Transcript  | Better food. |  I'm a steak  | cheese  |  on a meal. |  this salad |  I've been eating |  for lunch | Rice | and after dinner | dinner |
 
-## Neuron 12 - Numbers (particularly *th)
+### Neuron 12 - Numbers (particularly *th)
 
 |Example idx | 0 | 1  | 2  | 3  | 4  | 5  | 6  | 7  | 8  | 9 |
 | ---------- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Transcript  | than 15 |  the 8th  | at 5  |  Amen Perth |  of 16th |  the 20th |  6th year | Until the 6th | 3,000 | Stay at 4th |
 
-## Neuron 14 - Verbs related to moving things
+### Neuron 14 - Verbs related to moving things
 
 |Example idx | 0 | 1  | 2  | 3  | 4  | 5  | 6  | 7  | 8  |
 | ---------- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
