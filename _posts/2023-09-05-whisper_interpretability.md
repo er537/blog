@@ -22,7 +22,7 @@ This post is structured into 3 main claims that I make about the model:
  
  <h1 id="section1">1) The encoder learns human interpretable features</h1>
 
- ## 1.2) Features in the MLP layers
+ ## 1.1) Features in the MLP layers
 
 It turns out that neurons in the MLP layers of the encoder are highly interpretable; by finding maximally activating dataset examples (from a dataset of 10,000 2s audio clips) for all of the neurons we found that the majority activate on a specific phonetic sound! The table below shows these sounds for the first 50 neurons in `block.2.mlp.1`. By amplifying the audio around the sequence position where the neuron is maximally active, you can clearly hear these phonemes, as demonstrated by the audio clips below. 
 
