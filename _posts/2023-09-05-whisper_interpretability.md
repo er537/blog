@@ -358,30 +358,14 @@ Given how localized the attention pattern appears to be, we investigate what hap
 
 Here are the transcripts that emerge as we limit the attention window for various k values. We observe that even when k is reduced to 75 (a 10x reduction from the original k=750 window), the model continues to generate reasonably precise transcripts, indicating that the audio is being encoded in a localized manner.
 
-
-
-##### Original transcript (k=750):  
-'hot ones. The show where celebrities answer hot questions while feeding even hotter wings.' 
-
-
-##### k=100:  
-"Hot ones. The show where celebrities answer hot questions, what feeding, eating hot wings. I am Shana Evans. I'm Join Today." 
-
-
-##### k=75:  
-"The show with celebrities and their hot questions, what feeding, eating hot wings. Hi, I'm Shannon, and I'm joined today." 
-
-
-##### k=50:  
-'The show where celebrities enter hot questions, what leading, what leading, what are we.' 
-
-
-##### k=20:  
-"I'm joined today."
-
-
-##### k=10:  
-""
+| Attention window size        | Transcript                                                                                  |
+| --------------------------| ---------------------------------------------------------------------------------------------------|
+| Original transcript (k=750)| 'hot ones. The show where celebrities answer hot questions while feeding even hotter wings.' |
+| k=100                     | 'Hot ones. The show where celebrities answer hot questions, what feeding, eating hot wings. I am Shana Evans. I’m Join Today.' |
+| k=75                      | 'The show with celebrities and their hot questions, what feeding, eating hot wings. Hi, I’m Shannon, and I’m joined today.' |
+| k=50                      | 'The show where celebrities enter hot questions, what leading, what leading, what are we.' |
+| k=20                      | 'I’m joined today'|
+| k=10                      | '' |
 
 ## We can precisely remove words from a transcript by removing their corresponding embeddings
 Recall that Whisper is an encoder-decoder transformer; the decoder cross-attends to the output of the final layer of the encoder. Given the apparent localization of the embeddings in this final layer, we postulate that we could remove words from the transcript by 'chopping' out their corresponding embeddings. Concretely we let,
