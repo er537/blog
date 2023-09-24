@@ -1,113 +1,26 @@
 ---
 layout: post
-title: Interpreting Whisper
+title: Interpreting OpenAI's Whisper
 ---
 *(Work done as part of [SERI MATS](https://www.serimats.org/) Summer 2023 cohort under the supervision of Lee Sharkey.)*
 
-TL;DR - Mechanistic Interpretability has mainly focused on language and image models, but there's a growing need for interpretability in multimodal models that can handle text, images, audio, and video. I therefore spent my time on SERI MATS doing mechanistic interpretability on OpenAI's Whisper speech-to-text model. Here I present some of my results. 
+TL;DR - Mechanistic Interpretability has mainly focused on language and image models, but there's a growing need for interpretability in multimodal models that can handle text, images, audio, and video. Thus far, there have been minimal efforts directed toward interpreting audio models, let alone multimodal ones. To the best of my knowledge, this work presents the first attempt to do interpretability on a multimodal audio-text model. I show that acoustic features inside OpenAI's Whisper model are human interpretable and formulate a way of listening to them. I then go on to present some macroscopic properties of the encoder and decoder, specifically showing that encoder attention is highly localized and the decoder alone acts as a weak LM.
 
 # Why we should care about interpreting multimodal models
-Up to this point, the main focus in mechanistic interpretability has centred around language and image models. GPT-4, which currently inputs both text and images, is paving the way for the development of fully multimodal models capable of handling images, text, audio, and video. To develop a universal model for interpretability, we need techniques that transfer across all these modalities. Thus far, there have been minimal efforts directed toward interpreting audio models, let alone multimodal ones. This raises concerns because there might be components within these multimodal models performing dangerous/deceptive computation that we are unable to interpret. I have therefore spent my time on SERI MATS doing mechanistic interpretability on OpenAI's Whisper model, and here I share some of the insights I have gained. 
+Up to this point, the main focus in mechanistic interpretability has centred around language and image models. GPT-4, which currently inputs both text and images, is paving the way for the development of fully multimodal models capable of handling images, text, audio, and video. A robust mechanistic interpretability toolbox should allow us to understand **all** parts of a model. However, when it comes to audio models, let alone multimodal ones, there is a notable lack of research focused on mechanistic interpretability. This raises concerns because it suggests that there might parts multimodal models that we cannot understanding. Specifically, an inability to interpret the input representations that feed into the more cognitive parts of these models (which theoretically could perform dangerous computations) presents a problem. If we cannot understand the inputs, it is unlikely that we can understand the potentially dangerous bits.
 
 This post is structured into 3 main claims that I make about the model:
 
-**[1) Encoder attention is highly localized](#section1)  
-[2) The encoder learns human interpretable features](#section2)  
+**[1) The encoder learns human interpretable features](#section1)  
+[2) Encoder attention is highly localized](#section2)  
 [3) The decoder alone acts as a weak LM](#section3)**  
 
 *For context: Whisper is a speech-to-text model. It has an encoder-decoder transformer architecture as shown below. We used Whisper tiny which is only 39M parameters but remarkably good at transcription! The input to the encoder is a 30s chunk of audio (shorter chunks can be padded) and the output from the decoder is the transcript, predicted autoregressively. It is trained only on labelled speech to text pairs.*
 
 ![whisper](/blog/assets/images/whisper_interpretability/whisper.png)
 
-<h1 id="section1">1) Encoder attention is highly localized</h1>
-
-Below I present 3 experiments that suggest that the representations learnt by the encoder are highly localized; that is, they do not use much information from sequence positions outside of a narrow attention window. This is in contrast to a standard LLM which often attends to source tokens based on semantic content rather than distance to the destination token.
-
-We propagate the attention scores $R_{t}$ down the layers of the encoder as in [Generic Attention-model Explainability for Interpreting Bi-Modal and Encoder-Decoder Transformers](https://arxiv.org/pdf/2103.15679.pdf). This roughly equates to,
-
-<div align="center">
-  $$R_{t+1} = R_{t} + \bar A_{t+1} R_{t},$$
-</div>
-
-
-where,  
-<div align="center">
-  $$\bar A_t = \mathbb{E}[\nabla A_t \circ A_t],$$  
-</div>
-
-
-$A_{t}$ is the attention pattern in layer $t$ and $\bar A_{t}$ is the attention pattern weighted by gradient contribution. 
-This produces the striking pattern below; up to the point where the audio ends, the attention pattern is highly localized. When the speech ends (at frame ~500 in the following plot), all future positions attend back to the end of the speech.
-<div style="display: flex; justify-content: center;">
-    <img src="/blog/assets/images/whisper_interpretability/encoder/attention_scores.png" alt="attn_scores" style="max-width: 100%; height: auto;" />
-</div>
-
-## Constraining the attention window has minimal effects on performance
-Given how localized the attention pattern appears to be, we investigate what happens if we constrain it so that every audio embedding can only attend to the k nearest tokens on either side. Eg if k=2 we would we apply the following mask to the attention scores before the softmax:
-<div>
-    <img src="/blog/assets/images/whisper_interpretability/encoder/attn_mask.png" alt="attn_mask" style="width:300px; height:300px;" />
-</div>
-
-Here are the transcripts that emerge as we limit the attention window for various k values. We observe that even when k is reduced to 75 (a 10x reduction from the original k=750 window), the model continues to generate reasonably precise transcripts, indicating that the audio is being encoded in a localized manner.
-
-
-
-##### Original transcript (k=750):  
-'hot ones. The show where celebrities answer hot questions while feeding even hotter wings.' 
-
-
-##### k=100:  
-"Hot ones. The show where celebrities answer hot questions, what feeding, eating hot wings. I am Shana Evans. I'm Join Today." 
-
-
-##### k=75:  
-"The show with celebrities and their hot questions, what feeding, eating hot wings. Hi, I'm Shannon, and I'm joined today." 
-
-
-##### k=50:  
-'The show where celebrities enter hot questions, what leading, what leading, what are we.' 
-
-
-##### k=20:  
-"I'm joined today."
-
-
-##### k=10:  
-""
-
-## We can precisely remove words from a transcript by removing their corresponding embeddings
-Recall that Whisper is an encoder-decoder transformer; the decoder cross-attends to the output of the final layer of the encoder. Given the apparent localization of the embeddings in this final layer, we postulate that we could remove words from the transcript by 'chopping' out their corresponding embeddings. Concretely we let,
-
-`final_layer_output[start_index:stop_index] = final_layer_output_for_padded_input[start_index:stop_index]`,
-
-
- where `final_layer_output_for_padded_input` is the output of the encoder when we just use padding frames as the input.
-
-Consider the following example in which we substitute the initial 50 audio embeddings with padded equivalents (e.g., start_index=0, stop_index=50). These 50 embeddings represent $(50/1500)*30s=1s$ of audio. Our observation reveals that the transcript resulting from this replacement omits the initial two words. The fact that we can do this suggests that, for each word in the transcript, the decoder is cross-attending to a small window of audio embeddings and using a limited amount of context from the rest of the audio embeddings.
-
-<details>
-<summary>Audio Sample</summary>
-<audio controls>
-   <source src="/blog/assets/images/whisper_interpretability/encoder/Hot_ones.wav" type="audio/wav">
-   Your browser does not support the audio element.
-</audio>
-</details>
-
-
-##### Original Transcript:
-`hot ones. The show where celebrities answer hot questions while feeding even hotter wings.`  
-##### Substitute embedding between (start_index=0, stop_index=50):     
-`The show where celebrities answer hot questions while feeding even hotter wings.`   
-
-
-We can also do this in the middle of the sequence. Here we let (start_index=150, stop_index=175) which corresponds to 3-3.5s in the audio and observe that the transcript omits the words `hot questions`:  
-
-##### Original:   
-`hot ones. The show where celebrities answer hot questions while feeding even hotter wings.`  
-##### Substitute embeddings between (start_index=150, stop_index=175):  
-`hot ones. The show where celebrities while feeding even hotter wings.` 
-
-<h1 id="section2">2) The encoder learns human interpretable features</h1>
+ 
+ <h1 id="section1">1) The encoder learns human interpretable features</h1>
 
 It turns out that neurons in the MLP layers of the encoder are highly interpretable; by finding maximally activating dataset examples (from a dataset of 10,000 2s audio clips) for all of the neurons we found that the majority activate on a specific phonetic sound! The table below shows these sounds for the first 50 neurons in `block.2.mlp.1`. By amplifying the audio around the sequence position where the neuron is maximally active, you can clearly hear these phonemes, as demonstrated by the audio clips below. 
 
@@ -413,6 +326,94 @@ The presence of polysemantic neurons in both language and image models is widely
    Your browser does not support the audio element.
 </audio>
 </details>
+
+<h1 id="section1">1) Encoder attention is highly localized</h1>
+
+Below I present 3 experiments that suggest that the representations learnt by the encoder are highly localized; that is, they do not use much information from sequence positions outside of a narrow attention window. This is in contrast to a standard LLM which often attends to source tokens based on semantic content rather than distance to the destination token.
+
+We propagate the attention scores $R_{t}$ down the layers of the encoder as in [Generic Attention-model Explainability for Interpreting Bi-Modal and Encoder-Decoder Transformers](https://arxiv.org/pdf/2103.15679.pdf). This roughly equates to,
+
+<div align="center">
+  $$R_{t+1} = R_{t} + \bar A_{t+1} R_{t},$$
+</div>
+
+
+where,  
+<div align="center">
+  $$\bar A_t = \mathbb{E}[\nabla A_t \circ A_t],$$  
+</div>
+
+
+$A_{t}$ is the attention pattern in layer $t$ and $\bar A_{t}$ is the attention pattern weighted by gradient contribution. 
+This produces the striking pattern below; up to the point where the audio ends, the attention pattern is highly localized. When the speech ends (at frame ~500 in the following plot), all future positions attend back to the end of the speech.
+<div style="display: flex; justify-content: center;">
+    <img src="/blog/assets/images/whisper_interpretability/encoder/attention_scores.png" alt="attn_scores" style="max-width: 100%; height: auto;" />
+</div>
+
+## Constraining the attention window has minimal effects on performance
+Given how localized the attention pattern appears to be, we investigate what happens if we constrain it so that every audio embedding can only attend to the k nearest tokens on either side. Eg if k=2 we would we apply the following mask to the attention scores before the softmax:
+<div>
+    <img src="/blog/assets/images/whisper_interpretability/encoder/attn_mask.png" alt="attn_mask" style="width:300px; height:300px;" />
+</div>
+
+Here are the transcripts that emerge as we limit the attention window for various k values. We observe that even when k is reduced to 75 (a 10x reduction from the original k=750 window), the model continues to generate reasonably precise transcripts, indicating that the audio is being encoded in a localized manner.
+
+
+
+##### Original transcript (k=750):  
+'hot ones. The show where celebrities answer hot questions while feeding even hotter wings.' 
+
+
+##### k=100:  
+"Hot ones. The show where celebrities answer hot questions, what feeding, eating hot wings. I am Shana Evans. I'm Join Today." 
+
+
+##### k=75:  
+"The show with celebrities and their hot questions, what feeding, eating hot wings. Hi, I'm Shannon, and I'm joined today." 
+
+
+##### k=50:  
+'The show where celebrities enter hot questions, what leading, what leading, what are we.' 
+
+
+##### k=20:  
+"I'm joined today."
+
+
+##### k=10:  
+""
+
+## We can precisely remove words from a transcript by removing their corresponding embeddings
+Recall that Whisper is an encoder-decoder transformer; the decoder cross-attends to the output of the final layer of the encoder. Given the apparent localization of the embeddings in this final layer, we postulate that we could remove words from the transcript by 'chopping' out their corresponding embeddings. Concretely we let,
+
+`final_layer_output[start_index:stop_index] = final_layer_output_for_padded_input[start_index:stop_index]`,
+
+
+ where `final_layer_output_for_padded_input` is the output of the encoder when we just use padding frames as the input.
+
+Consider the following example in which we substitute the initial 50 audio embeddings with padded equivalents (e.g., start_index=0, stop_index=50). These 50 embeddings represent $(50/1500)*30s=1s$ of audio. Our observation reveals that the transcript resulting from this replacement omits the initial two words. The fact that we can do this suggests that, for each word in the transcript, the decoder is cross-attending to a small window of audio embeddings and using a limited amount of context from the rest of the audio embeddings.
+
+<details>
+<summary>Audio Sample</summary>
+<audio controls>
+   <source src="/blog/assets/images/whisper_interpretability/encoder/Hot_ones.wav" type="audio/wav">
+   Your browser does not support the audio element.
+</audio>
+</details>
+
+
+##### Original Transcript:
+`hot ones. The show where celebrities answer hot questions while feeding even hotter wings.`  
+##### Substitute embedding between (start_index=0, stop_index=50):     
+`The show where celebrities answer hot questions while feeding even hotter wings.`   
+
+
+We can also do this in the middle of the sequence. Here we let (start_index=150, stop_index=175) which corresponds to 3-3.5s in the audio and observe that the transcript omits the words `hot questions`:  
+
+##### Original:   
+`hot ones. The show where celebrities answer hot questions while feeding even hotter wings.`  
+##### Substitute embeddings between (start_index=150, stop_index=175):  
+`hot ones. The show where celebrities while feeding even hotter wings.`
 
 
 <h1 id="section3">3) The decoder alone acts as a weak LM</h1>
