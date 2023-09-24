@@ -329,7 +329,7 @@ The presence of polysemantic neurons in both language and image models is widely
 
 <h1 id="section1">1) Encoder attention is highly localized</h1>
 
-Below I present 3 experiments that suggest that the representations learnt by the encoder are highly localized; that is, they do not use much information from sequence positions outside of a narrow attention window. This is in contrast to a standard LLM which often attends to source tokens based on semantic content rather than distance to the destination token.
+Interestingly, the encoder attention patterns are highly temporally localized. This contrasts with standard LLMs which often attends to source tokens based on semantic content rather than distance to the destination token.
 
 We propagate the attention scores $R_{t}$ down the layers of the encoder as in [Generic Attention-model Explainability for Interpreting Bi-Modal and Encoder-Decoder Transformers](https://arxiv.org/pdf/2103.15679.pdf). This roughly equates to,
 
