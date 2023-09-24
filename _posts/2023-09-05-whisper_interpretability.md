@@ -305,29 +305,73 @@ The presence of polysemantic neurons in both language and image models is widely
 ### Audio samples for polysemantic neurons
 
 <details>
-<summary>Neuron 1 ('sh/ch/j')</summary>
+<summary>Neuron 1 ('sh')</summary>
 <audio controls>
    <source src="/blog/assets/images/whisper_interpretability/audio/b2_mlp_1_1pkl_poly_sh.wav" type="audio/wav">
    Your browser does not support the audio element.
 </audio>
 <audio controls>
-   <source src="/blog/assets/images/whisper_interpretability/audio/b2_mlp_1_1pkl_poly_ch.wav" type="audio/wav">
+   <source src="/blog/assets/images/whisper_interpretability/audio/b2_mlp_1_1pkl_poly_sh1.wav" type="audio/wav">
    Your browser does not support the audio element.
 </audio>
 <audio controls>
-   <source src="/blog/assets/images/whisper_interpretability/audio/b2_mlp_1_1pkl_poly_j.wav" type="audio/wav">
+   <source src="/blog/assets/images/whisper_interpretability/audio/b2_mlp_1_1pkl_poly_sh2.wav" type="audio/wav">
    Your browser does not support the audio element.
 </audio>
 </details>
 
 <details>
-<summary>Neuron 3 ('c/g')</summary>
+<summary>Neuron 1 ('ch')</summary>
+<audio controls>
+   <source src="/blog/assets/images/whisper_interpretability/audio/b2_mlp_1_1pkl_poly_ch.wav" type="audio/wav">
+   Your browser does not support the audio element.
+</audio>
+<audio controls>
+   <source src="/blog/assets/images/whisper_interpretability/audio/b2_mlp_1_1pkl_poly_ch1.wav" type="audio/wav">
+   Your browser does not support the audio element.
+</audio>
+<audio controls>
+   <source src="/blog/assets/images/whisper_interpretability/audio/b2_mlp_1_1pkl_poly_ch2.wav" type="audio/wav">
+   Your browser does not support the audio element.
+</audio>
+</details>
+
+<details>
+<summary>Neuron 1 ('j')</summary>
+<audio controls>
+   <source src="/blog/assets/images/whisper_interpretability/audio/b2_mlp_1_1pkl_poly_j.wav" type="audio/wav">
+   Your browser does not support the audio element.
+</audio>
+<audio controls>
+   <source src="/blog/assets/images/whisper_interpretability/audio/b2_mlp_1_1pkl_poly_j1.wav" type="audio/wav">
+   Your browser does not support the audio element.
+</audio>
+<audio controls>
+   <source src="/blog/assets/images/whisper_interpretability/audio/b2_mlp_1_1pkl_poly_j2.wav" type="audio/wav">
+   Your browser does not support the audio element.
+</audio>
+</details>
+
+<details>
+<summary>Neuron 3 ('c')</summary>
 <audio controls>
    <source src="/blog/assets/images/whisper_interpretability/audio/b2_mlp_1_3pkl_poly_c.wav" type="audio/wav">
    Your browser does not support the audio element.
 </audio>
 <audio controls>
+   <source src="/blog/assets/images/whisper_interpretability/audio/b2_mlp_1_3pkl_poly_c1.wav" type="audio/wav">
+   Your browser does not support the audio element.
+</audio>
+</details>
+
+<details>
+<summary>Neuron 3 ('g')</summary>
+<audio controls>
    <source src="/blog/assets/images/whisper_interpretability/audio/b2_mlp_1_3pkl_poly_g.wav" type="audio/wav">
+   Your browser does not support the audio element.
+</audio>
+<audio controls>
+   <source src="/blog/assets/images/whisper_interpretability/audio/b2_mlp_1_3pkl_poly_g1.wav" type="audio/wav">
    Your browser does not support the audio element.
 </audio>
 </details>
