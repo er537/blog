@@ -377,13 +377,11 @@ Recall that Whisper is an encoder-decoder transformer; the decoder cross-attends
 
 Consider the following example in which we substitute the initial 50 audio embeddings with padded equivalents (e.g., start_index=0, stop_index=50). These 50 embeddings represent $(50/1500)*30s=1s$ of audio. Our observation reveals that the transcript resulting from this replacement omits the initial two words. The fact that we can do this suggests that, for each word in the transcript, the decoder is cross-attending to a small window of audio embeddings and using a limited amount of context from the rest of the audio embeddings.
 
-<details>
-<summary>Audio Sample</summary>
+##### Hot Ones Audio Sample:
 <audio controls>
    <source src="/blog/assets/images/whisper_interpretability/encoder/Hot_ones.wav" type="audio/wav">
    Your browser does not support the audio element.
 </audio>
-</details>
 
 
 ##### Original Transcript:
