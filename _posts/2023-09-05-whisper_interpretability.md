@@ -22,9 +22,11 @@ This post is structured into 3 main claims that I make about the model:
  
  <h1 id="section1">1) The encoder learns human interpretable features</h1>
 
- ## 1.1) Features in the MLP layers
+By finding maximally activating dataset examples (from a dataset of 10,000 2s audio clips) for [MLP neurons](#section1.1)/[directions in the residual stream](#section1.2) we are able to detect acoustic features corresponding to specific phomemes. By amplifying the audio around the sequence position where the feature is maximally active, you can clearly hear these phonemes, as demonstrated by the audio clips below. 
 
-It turns out that neurons in the MLP layers of the encoder are highly interpretable; by finding maximally activating dataset examples (from a dataset of 10,000 2s audio clips) for all of the neurons we found that the majority activate on a specific phonetic sound! The table below shows these sounds for the first 50 neurons in `block.2.mlp.1`. By amplifying the audio around the sequence position where the neuron is maximally active, you can clearly hear these phonemes, as demonstrated by the audio clips below. 
+<h2 id="section1.1">1.1) Features in the MLP layers</h2>
+
+It turns out that neurons in the MLP layers of the encoder are highly interpretable. The table below shows the phonetic sound that each neuron activates on for the first 50 neurons in `block.2.mlp.1`.
 
 | Neuron idx | 0   | 1   | 2   | 3   | 4   | 5   | 6   | 7   | 8   | 9   |
 | ---------- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -164,7 +166,8 @@ It turns out that neurons in the MLP layers of the encoder are highly interpreta
 </audio>
 </details>
 
-## 1.2) Features in the Residual Stream
+<h2 id="section1.2">1.2) Features in the Residual Stream</h2>
+
 The residual stream is not in a [privileged basis](https://transformer-circuits.pub/2023/privileged-basis/index.html) so we would not expect the features it learns to be neuron aligned. We can however train [sparse autoencoders](https://www.lesswrong.com/posts/z6QQJbtpkEAX3Aojj/interim-research-report-taking-features-out-of-superposition) on the residual stream activations and find maximally activating dataset examples for this dictionary of learnt features. We also find these to be highly interpretable and often correspond to phonemes. Below are some examples of these features:
 
 ### encoder.blocks.3 - Learnt using sparse autoencoder
