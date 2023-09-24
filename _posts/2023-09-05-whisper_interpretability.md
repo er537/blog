@@ -7,7 +7,7 @@ title: Interpreting OpenAI's Whisper
 TL;DR - Mechanistic Interpretability has mainly focused on language and image models, but there's a growing need for interpretability in multimodal models that can handle text, images, audio, and video. Thus far, there have been minimal efforts directed toward interpreting audio models, let alone multimodal ones. To the best of my knowledge, this work presents the first attempt to do interpretability on a multimodal audio-text model. I show that acoustic features inside [OpenAI's Whisper model](https://cdn.openai.com/papers/whisper.pdf) are human interpretable and formulate a way of listening to them. I then go on to present some macroscopic properties of the encoder and decoder, specifically showing that encoder attention is highly localized and the decoder alone acts as a weak LM.
 
 # Why we should care about interpreting multimodal models
-Up to this point, the main focus in mechanistic interpretability has centred around language and image models. GPT-4, which currently inputs both text and images, is paving the way for the development of fully multimodal models capable of handling images, text, audio, and video. A robust mechanistic interpretability toolbox should allow us to understand **all** parts of a model. However, when it comes to audio models, let alone multimodal ones, there is a notable lack of research focused on mechanistic interpretability. This raises concerns because it suggests that there might parts multimodal models that we cannot understanding. Specifically, an inability to interpret the input representations that feed into the more cognitive parts of these models (which theoretically could perform dangerous computations) presents a problem. If we cannot understand the inputs, it is unlikely that we can understand the potentially dangerous bits.
+Up to this point, the main focus in mechanistic interpretability has centred around language and image models. GPT-4, which currently inputs both text and images, is paving the way for the development of fully multimodal models capable of handling images, text, audio, and video. A robust mechanistic interpretability toolbox should allow us to understand **all** parts of a model. However, when it comes to audio models, let alone multimodal ones, there is a notable lack of mechanistic interpretability. This raises concerns, because it suggests that there might parts of multimodal models that we cannot understanding. Specifically, an inability to interpret the input representations that are fed into the more cognitive parts of these models (which theoretically could perform dangerous computations) presents a problem. If we cannot understand the inputs, it is unlikely that we can understand the potentially dangerous bits.
 
 This post is structured into 3 main claims that I make about the model:
 
@@ -21,6 +21,8 @@ This post is structured into 3 main claims that I make about the model:
 
  
  <h1 id="section1">1) The encoder learns human interpretable features</h1>
+
+ ## 1.2) Features in the MLP layers
 
 It turns out that neurons in the MLP layers of the encoder are highly interpretable; by finding maximally activating dataset examples (from a dataset of 10,000 2s audio clips) for all of the neurons we found that the majority activate on a specific phonetic sound! The table below shows these sounds for the first 50 neurons in `block.2.mlp.1`. By amplifying the audio around the sequence position where the neuron is maximally active, you can clearly hear these phonemes, as demonstrated by the audio clips below. 
 
@@ -162,7 +164,7 @@ It turns out that neurons in the MLP layers of the encoder are highly interpreta
 </audio>
 </details>
 
-## Residual Stream Features
+## 1.2) Features in the Residual Stream
 The residual stream is not in a [privileged basis](https://transformer-circuits.pub/2023/privileged-basis/index.html) so we would not expect the features it learns to be neuron aligned. We can however train [sparse autoencoders](https://www.lesswrong.com/posts/z6QQJbtpkEAX3Aojj/interim-research-report-taking-features-out-of-superposition) on the residual stream activations and find maximally activating dataset examples for this dictionary of learnt features. We also find these to be highly interpretable and often correspond to phonemes. Below are some examples of these features:
 
 ### encoder.blocks.3 - Learnt using sparse autoencoder
@@ -287,7 +289,7 @@ The residual stream is not in a [privileged basis](https://transformer-circuits.
 </audio>
 </details>
 
-# Acoustic neurons are also polysemantic
+## 1.3) Acoustic neurons are also polysemantic
 The presence of polysemantic neurons in both language and image models is widely acknowledged, suggesting the possibility of their existence in acoustic models as well. By listening to dataset examples at different ranges of neuron activation we were able to uncover these polysemantic acoustic neurons. Initially, these neurons appeared to respond to a single phoneme when you only listen to the max activating dataset examples.  However, listening to examples at varying levels of activation reveals polysemantic behaviour. Presented in the following plots are the sounds that `neuron 1` and `neuron 3` in `blocks.2.mlp.1` activate on at different ranges of activation. Additionally, audio samples are provided to illustrate this phenomenon.
 <div style="display: flex; justify-content: center;">
     <img src="/blog/assets/images/whisper_interpretability/encoder/poly_ch_sh.png" alt="poly_ch_sh" style="width: auto; height: auto;" />
@@ -297,7 +299,7 @@ The presence of polysemantic neurons in both language and image models is widely
 </div>
 
 
-## Audio samples for polysemantic neurons
+### Audio samples for polysemantic neurons
 
 <details>
 <summary>Neuron 1 ('sh/ch/j')</summary>
@@ -327,7 +329,7 @@ The presence of polysemantic neurons in both language and image models is widely
 </audio>
 </details>
 
-<h1 id="section1">1) Encoder attention is highly localized</h1>
+<h1 id="section2">2) Encoder attention is highly localized</h1>
 
 Interestingly, the encoder attention patterns are highly temporally localized. This contrasts with standard LLMs which often attends to source tokens based on semantic content rather than distance to the destination token.
 
@@ -350,7 +352,7 @@ This produces the striking pattern below; up to the point where the audio ends, 
     <img src="/blog/assets/images/whisper_interpretability/encoder/attention_scores.png" alt="attn_scores" style="max-width: 100%; height: auto;" />
 </div>
 
-## Constraining the attention window has minimal effects on performance
+## 2.1) Constraining the attention window has minimal effects on performance
 Given how localized the attention pattern appears to be, we investigate what happens if we constrain it so that every audio embedding can only attend to the k nearest tokens on either side. Eg if k=2 we would we apply the following mask to the attention scores before the softmax:
 <div>
     <img src="/blog/assets/images/whisper_interpretability/encoder/attn_mask.png" alt="attn_mask" style="width:300px; height:300px;" />
@@ -367,7 +369,7 @@ Here are the transcripts that emerge as we limit the attention window for variou
 | k=20                      | 'I’m joined today'|
 | k=10                      | '' |
 
-## We can precisely remove words from a transcript by removing their corresponding embeddings
+## 2.2) We can precisely remove words from a transcript by removing their corresponding embeddings
 Recall that Whisper is an encoder-decoder transformer; the decoder cross-attends to the output of the final layer of the encoder. Given the apparent localization of the embeddings in this final layer, we postulate that we could remove words from the transcript by 'chopping' out their corresponding embeddings. Concretely we let,
 
 `final_layer_output[start_index:stop_index] = final_layer_output_for_padded_input[start_index:stop_index]`,
@@ -403,7 +405,7 @@ We can also do this in the middle of the sequence. Here we let (start_index=150,
 Whisper is trained exclusively on supervised speech-to-text data; the decoder is **not** pre-trained on text. In spite of this, the model still acquires rudimentary language modeling capabilities. While this outcome isn't unexpected, the subsequent experiments that validate this phenomenon are quite interesting/amusing in themselves.
 
 
-## Whisper learns language modelling bigrams
+## 3.1) Whisper learns language modelling bigrams
 If we just use 'padding' frames as the input of the encoder and 'prompt' the decoder we can recover bigram statistics. For example, at the start of transcription, the decoder is normally prompted with:\
 `<|startoftranscript|><|en|><|transcribe|>`
 
@@ -418,7 +420,7 @@ Below we plot the top 20 most likely next tokens and their corresponding logit f
 ![traffic](/blog/assets/images/whisper_interpretability/decoder/prompt_images/traffic_prompt.png)
 ![Good](/blog/assets/images/whisper_interpretability/decoder/prompt_images/Good_prompt.png)
 
-## Words embeddings are clustered by semantic and acoustic similarity
+## 3.2) Words embeddings are clustered by semantic and acoustic similarity
 
 In LLMs, we observe that semantically similar words clustered in embedding space. This phenomenon also holds for Whisper, but additionally we discover that **similar sounding** words also exhibit proximity in the embedding space. To illustrate this, we choose specific words and then create a plot of the 20 nearest tokens based on their cosine similarity.\
 \
@@ -428,7 +430,7 @@ Often tokens that are close in embedding space are a combination of rhyming word
 ![UK](/blog/assets/images/whisper_interpretability/decoder/embedding_space/UK_embed.png)
 ![duck](/blog/assets/images/whisper_interpretability/decoder/embedding_space/duck_embed.png)
 
-## The decoder learns semantic features analogous to those found in LLMs
+## 3.3) The decoder learns semantic features analogous to those found in LLMs
 
 Finally, we collected maximally activating dataset examples (using the same dataset of 10,000 2s audio clips) for the neuron basis of the decoder `blocks.0.mlp.1`. We find that even in the first layer of the decoder they often activate on semantically similar concepts. This suggests that a) the model is already operating on the word level by the first MLP layer and b) it has aquired rudimentary language modelling capabilities like a weak LLM. Below we show the transcripts for the maximally activating dataset examples for some neurons in `decoder.blocks.0.mlp.1`. 
 
@@ -452,6 +454,6 @@ Finally, we collected maximally activating dataset examples (using the same data
 
 # Conclusion
 
-To our knowledge, this work presents the first attempt to do interpretability on a multimodal audio-text model. We have demonstrated that acoustic features are human interpretable, formulated a way of listening to them and presented some macroscopic properties of Whisper's encoder and decoder. This is a first step in developing universal interpretability techniques that can be used to detect dangerous/deceptive computation in multimodal models. This work is however by no means comprehensive. A notable limitation is that we simply used dataset examples to demonstrate acoustic features (rather than using an optimization based methods like DeepDream) potentially biasing features towards the dataset. Future work would include getting an optimization based feature visualization method working in the audio domain, in addition to looking more closely into how the acoustic features in the encoder are mapped to linguistic ones in the decoder. 
+To our knowledge, this work presents the first attempt to do interpretability on a multimodal audio-text model. We have demonstrated that acoustic features are human interpretable and formulated a way of listening to them. Additionally, we have also presented some macroscopic properties of Whisper's encoder and decoder. These findings reveal that the audio encoder's attention is highly localized, in contrast to the attention patterns observed in Large Language Models. Furthermore, despite being exclusively trained on a supervised speech-to-text task, the decoder has acquired basic language modeling capabilities. This is a first step in developing universal interpretability techniques that can be used to detect dangerous/deceptive computation in multimodal models. This work is however by no means comprehensive. A notable limitation is that we simply used dataset examples to demonstrate acoustic features (rather than using an optimization based methods like DeepDream) potentially biasing features towards the dataset. Future work would include getting an optimization based feature visualization method working in the audio domain, in addition to looking more closely into how the acoustic features in the encoder are mapped to linguistic ones in the decoder. 
 
 
